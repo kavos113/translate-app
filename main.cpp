@@ -4,11 +4,11 @@
 
 #include "llama.h"
 
-constexpr int n_predict = 32;
+constexpr int n_predict = 100;
 constexpr int n_gpu_layers = 99;
 
-const std::string model_path = "embeddinggemma-300M-Q8_0.gguf";
-const std::string prompt = "What is your name?";
+const std::string model_path = "./Qwen3-0.6B-Q8_0.gguf";
+const std::string prompt = "Hello my name is";
 
 int main()
 {
@@ -126,7 +126,7 @@ int main()
 
     const int64_t main_end = ggml_time_us();
 
-    std::cout << "decoded " << n_decode << " tokens, " << static_cast<float>(main_start - main_end) / 1000000.0f << "s, " << static_cast<float>(n_decode) / (static_cast<float>(main_start - main_end)) << " t/s" << std::endl;
+    std::cout << "decoded " << n_decode << " tokens, " << static_cast<double>(main_end - main_start) / 1000000.0 << "s, " << static_cast<double>(n_decode) / (static_cast<double>(main_end - main_start) / 1000000) << " t/s" << std::endl;
 
     std::cout << std::endl;
     llama_perf_sampler_print(sampler);

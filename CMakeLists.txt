@@ -8,6 +8,8 @@ if (MSVC)
     add_compile_options(/Zc:char8_t-)
 endif ()
 
+set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared libraries" FORCE)
+
 option(LLAMA_BUILD_TESTS "Build tests" OFF)
 option(LLAMA_BUILD_EXAMPLES "Build examples" OFF)
 option(LLAMA_BUILD_SERVER "Build server" OFF)
