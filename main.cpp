@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -7,8 +8,8 @@
 constexpr int n_predict = 100;
 constexpr int n_gpu_layers = 99;
 
-const std::string model_path = "./Qwen3-0.6B-Q8_0.gguf";
-const std::string prompt = "Hello my name is";
+const std::string model_path = "./plamo-2-translate.gguf";
+const std::string content = "hello, this is a translate app.";
 
 int main()
 {
@@ -23,6 +24,10 @@ int main()
         std::cerr << "failed to load model" << std::endl;
         return 1;
     }
+
+    std::stringstream ss;
+    ss << "<|plamo:op|>dataset\ntranslation\n<|plamo:op|>input lang=English\n" << content <<"\n<|plamo:op|>output lang=Japanese";
+    std::string prompt = ss.str();
 
     const llama_vocab *vocab = llama_model_get_vocab(model);
     const int n_prompt = -llama_tokenize(vocab, prompt.c_str(), prompt.size(), nullptr, 0, true, true);
