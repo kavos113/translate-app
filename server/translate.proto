@@ -2,12 +2,13 @@ syntax = "proto3";
 
 package translate;
 
+import "google/protobuf/empty.proto";
+
 service TranslateService {
-  rpc LoadModel (Void) returns (Void) {}
+  rpc LoadModel (google.protobuf.Empty) returns (google.protobuf.Empty) {}
+  rpc FreeModel (google.protobuf.Empty) returns (google.protobuf.Empty) {}
   rpc Translate (TranslateRequest) returns (TranslateResponse) {}
 }
-
-message Void {}
 
 message TranslateRequest {
   string content = 1;

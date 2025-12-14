@@ -55,8 +55,10 @@ proto_gen(server/translate.proto PROTO_SRC PROTO_HDR)
 add_executable(translate
         engine/translate_engine.h
         engine/translate_engine.cpp
+        server/translate_server.h
         ${PROTO_SRC} ${PROTO_HDR}
 )
+target_include_directories(translate PRIVATE engine)
 target_link_libraries(translate PRIVATE
         llama
         gRPC::grpc++

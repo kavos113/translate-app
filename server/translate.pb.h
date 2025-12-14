@@ -20,7 +20,6 @@
 #include "google/protobuf/io/coded_stream.h"
 #include "google/protobuf/arena.h"
 #include "google/protobuf/arenastring.h"
-#include "google/protobuf/generated_message_bases.h"
 #include "google/protobuf/generated_message_tctable_decl.h"
 #include "google/protobuf/generated_message_util.h"
 #include "google/protobuf/metadata_lite.h"
@@ -30,6 +29,7 @@
 #include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
 #include "google/protobuf/unknown_field_set.h"
+#include "google/protobuf/empty.pb.h"
 // @@protoc_insertion_point(includes)
 
 // Must be included last.
@@ -59,9 +59,6 @@ extern TranslateRequestDefaultTypeInternal _TranslateRequest_default_instance_;
 class TranslateResponse;
 struct TranslateResponseDefaultTypeInternal;
 extern TranslateResponseDefaultTypeInternal _TranslateResponse_default_instance_;
-class Void;
-struct VoidDefaultTypeInternal;
-extern VoidDefaultTypeInternal _Void_default_instance_;
 }  // namespace translate
 namespace google {
 namespace protobuf {
@@ -73,151 +70,6 @@ namespace translate {
 // ===================================================================
 
 
-// -------------------------------------------------------------------
-
-class Void final : public ::google::protobuf::internal::ZeroFieldsBase
-/* @@protoc_insertion_point(class_definition:translate.Void) */ {
- public:
-  inline Void() : Void(nullptr) {}
-
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(Void* msg, std::destroying_delete_t) {
-    SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(Void));
-  }
-#endif
-
-  template <typename = void>
-  explicit PROTOBUF_CONSTEXPR Void(
-      ::google::protobuf::internal::ConstantInitialized);
-
-  inline Void(const Void& from) : Void(nullptr, from) {}
-  inline Void(Void&& from) noexcept
-      : Void(nullptr, std::move(from)) {}
-  inline Void& operator=(const Void& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline Void& operator=(Void&& from) noexcept {
-    if (this == &from) return *this;
-    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const Void& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const Void* internal_default_instance() {
-    return reinterpret_cast<const Void*>(
-        &_Void_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages = 0;
-  friend void swap(Void& a, Void& b) { a.Swap(&b); }
-  inline void Swap(Void* other) {
-    if (other == this) return;
-    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
-      InternalSwap(other);
-    } else {
-      ::google::protobuf::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(Void* other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  Void* New(::google::protobuf::Arena* arena = nullptr) const {
-    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<Void>(arena);
-  }
-  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
-  inline void CopyFrom(const Void& from) {
-    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
-  }
-  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
-  void MergeFrom(const Void& from) {
-    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
-  }
-
-  public:
-  bool IsInitialized() const {
-    return true;
-  }
- private:
-  template <typename T>
-  friend ::absl::string_view(
-      ::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "translate.Void"; }
-
- protected:
-  explicit Void(::google::protobuf::Arena* arena);
-  Void(::google::protobuf::Arena* arena, const Void& from);
-  Void(::google::protobuf::Arena* arena, Void&& from) noexcept
-      : Void(arena) {
-    *this = ::std::move(from);
-  }
-  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
-  static void* PlacementNew_(const void*, void* mem,
-                             ::google::protobuf::Arena* arena);
-  static constexpr auto InternalNewImpl_();
-  static const ::google::protobuf::internal::ClassDataFull _class_data_;
-
- public:
-  ::google::protobuf::Metadata GetMetadata() const;
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-  // @@protoc_insertion_point(class_scope:translate.Void)
- private:
-  class _Internal;
-  friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<
-      0, 0, 0,
-      0, 2>
-      _table_;
-
-  friend class ::google::protobuf::MessageLite;
-  friend class ::google::protobuf::Arena;
-  template <typename T>
-  friend class ::google::protobuf::Arena::InternalHelper;
-  using InternalArenaConstructable_ = void;
-  using DestructorSkippable_ = void;
-  struct Impl_ {
-    inline explicit constexpr Impl_(
-        ::google::protobuf::internal::ConstantInitialized) noexcept;
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena);
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena, const Impl_& from,
-                          const Void& from_msg);
-    PROTOBUF_TSAN_DECLARE_MEMBER
-  };
-  friend struct ::TableStruct_server_2ftranslate_2eproto;
-};
 // -------------------------------------------------------------------
 
 class TranslateResponse final : public ::google::protobuf::Message
@@ -279,7 +131,7 @@ class TranslateResponse final : public ::google::protobuf::Message
     return reinterpret_cast<const TranslateResponse*>(
         &_TranslateResponse_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 2;
+  static constexpr int kIndexInFileMessages = 1;
   friend void swap(TranslateResponse& a, TranslateResponse& b) { a.Swap(&b); }
   inline void Swap(TranslateResponse* other) {
     if (other == this) return;
@@ -475,7 +327,7 @@ class TranslateRequest final : public ::google::protobuf::Message
     return reinterpret_cast<const TranslateRequest*>(
         &_TranslateRequest_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 1;
+  static constexpr int kIndexInFileMessages = 0;
   friend void swap(TranslateRequest& a, TranslateRequest& b) { a.Swap(&b); }
   inline void Swap(TranslateRequest* other) {
     if (other == this) return;
@@ -635,10 +487,6 @@ class TranslateRequest final : public ::google::protobuf::Message
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
-// Void
-
 // -------------------------------------------------------------------
 
 // TranslateRequest

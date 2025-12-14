@@ -67,6 +67,11 @@ std::string translate_engine::translate_jp_to_en(const std::string& en)
 
 std::string translate_engine::translate(const std::string& prompt)
 {
+    if (m_model == nullptr)
+    {
+        load_model();
+    }
+
     const llama_vocab *vocab = llama_model_get_vocab(m_model);
     const int n_prompt = -llama_tokenize(vocab, prompt.c_str(), prompt.size(), nullptr, 0, true, true);
 

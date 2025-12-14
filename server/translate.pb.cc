@@ -25,24 +25,6 @@ namespace _pb = ::google::protobuf;
 namespace _pbi = ::google::protobuf::internal;
 namespace _fl = ::google::protobuf::internal::field_layout;
 namespace translate {
-              template <typename>
-PROTOBUF_CONSTEXPR Void::Void(::_pbi::ConstantInitialized)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::internal::ZeroFieldsBase() {
-}
-#endif  // PROTOBUF_CUSTOM_VTABLE
-struct VoidDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR VoidDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~VoidDefaultTypeInternal() {}
-  union {
-    Void _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 VoidDefaultTypeInternal _Void_default_instance_;
 
 inline constexpr TranslateResponse::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
@@ -107,14 +89,6 @@ const ::uint32_t
     TableStruct_server_2ftranslate_2eproto::offsets[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
         protodesc_cold) = {
         ~0u,  // no _has_bits_
-        PROTOBUF_FIELD_OFFSET(::translate::Void, _internal_metadata_),
-        ~0u,  // no _extensions_
-        ~0u,  // no _oneof_case_
-        ~0u,  // no _weak_field_map_
-        ~0u,  // no _inlined_string_donated_
-        ~0u,  // no _split_
-        ~0u,  // no sizeof(Split)
-        ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::translate::TranslateRequest, _internal_metadata_),
         ~0u,  // no _extensions_
         ~0u,  // no _oneof_case_
@@ -137,37 +111,41 @@ const ::uint32_t
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, -1, -1, sizeof(::translate::Void)},
-        {8, -1, -1, sizeof(::translate::TranslateRequest)},
-        {18, -1, -1, sizeof(::translate::TranslateResponse)},
+        {0, -1, -1, sizeof(::translate::TranslateRequest)},
+        {10, -1, -1, sizeof(::translate::TranslateResponse)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
-    &::translate::_Void_default_instance_._instance,
     &::translate::_TranslateRequest_default_instance_._instance,
     &::translate::_TranslateResponse_default_instance_._instance,
 };
 const char descriptor_table_protodef_server_2ftranslate_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\026server/translate.proto\022\ttranslate\"\006\n\004V"
-    "oid\"8\n\020TranslateRequest\022\017\n\007content\030\001 \001(\t"
-    "\022\023\n\013is_jp_to_en\030\002 \001(\010\"$\n\021TranslateRespon"
-    "se\022\017\n\007content\030\001 \001(\t2\215\001\n\020TranslateService"
-    "\022/\n\tLoadModel\022\017.translate.Void\032\017.transla"
-    "te.Void\"\000\022H\n\tTranslate\022\033.translate.Trans"
-    "lateRequest\032\034.translate.TranslateRespons"
-    "e\"\000b\006proto3"
+    "\n\026server/translate.proto\022\ttranslate\032\033goo"
+    "gle/protobuf/empty.proto\"8\n\020TranslateReq"
+    "uest\022\017\n\007content\030\001 \001(\t\022\023\n\013is_jp_to_en\030\002 \001"
+    "(\010\"$\n\021TranslateResponse\022\017\n\007content\030\001 \001(\t"
+    "2\332\001\n\020TranslateService\022=\n\tLoadModel\022\026.goo"
+    "gle.protobuf.Empty\032\026.google.protobuf.Emp"
+    "ty\"\000\022=\n\tFreeModel\022\026.google.protobuf.Empt"
+    "y\032\026.google.protobuf.Empty\"\000\022H\n\tTranslate"
+    "\022\033.translate.TranslateRequest\032\034.translat"
+    "e.TranslateResponse\"\000b\006proto3"
+};
+static const ::_pbi::DescriptorTable* const descriptor_table_server_2ftranslate_2eproto_deps[1] =
+    {
+        &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
 };
 static ::absl::once_flag descriptor_table_server_2ftranslate_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_server_2ftranslate_2eproto = {
     false,
     false,
-    291,
+    389,
     descriptor_table_protodef_server_2ftranslate_2eproto,
     "server/translate.proto",
     &descriptor_table_server_2ftranslate_2eproto_once,
-    nullptr,
-    0,
-    3,
+    descriptor_table_server_2ftranslate_2eproto_deps,
+    1,
+    2,
     schemas,
     file_default_instances,
     TableStruct_server_2ftranslate_2eproto::offsets,
@@ -175,109 +153,6 @@ PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_server_2ftrans
     file_level_service_descriptors_server_2ftranslate_2eproto,
 };
 namespace translate {
-// ===================================================================
-
-class Void::_Internal {
- public:
-};
-
-Void::Void(::google::protobuf::Arena* arena)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
-#endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(arena_constructor:translate.Void)
-}
-Void::Void(
-    ::google::protobuf::Arena* arena,
-    const Void& from)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
-#endif  // PROTOBUF_CUSTOM_VTABLE
-  Void* const _this = this;
-  (void)_this;
-  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
-      from._internal_metadata_);
-
-  // @@protoc_insertion_point(copy_constructor:translate.Void)
-}
-
-inline void* Void::PlacementNew_(const void*, void* mem,
-                                        ::google::protobuf::Arena* arena) {
-  return ::new (mem) Void(arena);
-}
-constexpr auto Void::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(Void),
-                                            alignof(Void));
-}
-PROTOBUF_CONSTINIT
-PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::google::protobuf::internal::ClassDataFull Void::_class_data_ = {
-    ::google::protobuf::internal::ClassData{
-        &_Void_default_instance_._instance,
-        &_table_.header,
-        nullptr,  // OnDemandRegisterArenaDtor
-        nullptr,  // IsInitialized
-        &Void::MergeImpl,
-        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<Void>(),
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-        &Void::SharedDtor,
-        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<Void>(), &Void::ByteSizeLong,
-            &Void::_InternalSerialize,
-#endif  // PROTOBUF_CUSTOM_VTABLE
-        PROTOBUF_FIELD_OFFSET(Void, _impl_._cached_size_),
-        false,
-    },
-    &Void::kDescriptorMethods,
-    &descriptor_table_server_2ftranslate_2eproto,
-    nullptr,  // tracker
-};
-const ::google::protobuf::internal::ClassData* Void::GetClassData() const {
-  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
-  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
-  return _class_data_.base();
-}
-PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 0, 0, 0, 2> Void::_table_ = {
-  {
-    0,  // no _has_bits_
-    0, // no _extensions_
-    0, 0,  // max_field_number, fast_idx_mask
-    offsetof(decltype(_table_), field_lookup_table),
-    4294967295,  // skipmap
-    offsetof(decltype(_table_), field_names),  // no field_entries
-    0,  // num_field_entries
-    0,  // num_aux_entries
-    offsetof(decltype(_table_), field_names),  // no aux_entries
-    _class_data_.base(),
-    nullptr,  // post_loop_handler
-    ::_pbi::TcParser::GenericFallback,  // fallback
-    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::translate::Void>(),  // to_prefetch
-    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
-  }, {{
-    {::_pbi::TcParser::MiniParse, {}},
-  }}, {{
-    65535, 65535
-  }},
-  // no field_entries, or aux_entries
-  {{
-  }},
-};
-
-
-
-
-
-
-
-
-::google::protobuf::Metadata Void::GetMetadata() const {
-  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
-}
 // ===================================================================
 
 class TranslateRequest::_Internal {
