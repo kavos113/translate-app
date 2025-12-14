@@ -53,7 +53,7 @@ std::string translate_engine::translate_en_to_jp(const std::string& jp)
     ss << "<|plamo:op|>dataset\ntranslation\n<|plamo:op|>input lang=English\n" << jp <<"\n<|plamo:op|>output lang=Japanese";
     std::string prompt = ss.str();
     
-    return tranlate(prompt);
+    return translate(prompt);
 }
 
 std::string translate_engine::translate_jp_to_en(const std::string& en)
@@ -62,10 +62,10 @@ std::string translate_engine::translate_jp_to_en(const std::string& en)
     ss << "<|plamo:op|>dataset\ntranslation\n<|plamo:op|>input lang=Japanese\n" << en <<"\n<|plamo:op|>output lang=English";
     std::string prompt = ss.str();
     
-    return tranlate(en);
+    return translate(en);
 }
 
-std::string translate_engine::tranlate(const std::string& prompt)
+std::string translate_engine::translate(const std::string& prompt)
 {
     const llama_vocab *vocab = llama_model_get_vocab(m_model);
     const int n_prompt = -llama_tokenize(vocab, prompt.c_str(), prompt.size(), nullptr, 0, true, true);

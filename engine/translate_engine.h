@@ -18,7 +18,7 @@ public:
     std::string translate_jp_to_en(const std::string& en);
 
 private:
-    std::string tranlate(const std::string& prompt);
+    std::string translate(const std::string& prompt);
 
     llama_model *m_model = nullptr;
     llama_sampler *m_sampler = nullptr;

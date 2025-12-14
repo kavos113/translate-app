@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package translate;
+
+service TranslateService {
+  rpc LoadModel (Void) returns (Void) {}
+  rpc Translate (TranslateRequest) returns (TranslateResponse) {}
+}
+
+message Void {}
+
+message TranslateRequest {
+  string content = 1;
+  bool is_jp_to_en = 2;
+}
+
+message TranslateResponse {
+  string content = 1;
+}
