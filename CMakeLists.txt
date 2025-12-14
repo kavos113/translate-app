@@ -17,5 +17,8 @@ option(LLAMA_BUILD_SERVER "Build server" OFF)
 
 add_subdirectory(llama.cpp)
 
-add_executable(translate main.cpp)
+add_executable(translate
+        engine/translate_engine.h
+        engine/translate_engine.cpp
+)
 target_link_libraries(translate PRIVATE llama)
