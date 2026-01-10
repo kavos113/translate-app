@@ -5,6 +5,7 @@
 #endif
 
 #include <grpcpp/grpcpp.h>
+#include <thread>
 
 #include "client.h"
 
@@ -39,12 +40,19 @@ namespace winrt::desktop::implementation
 
     void MainWindow::LoadModelButton_Click(IInspectable const& sender, RoutedEventArgs const& e)
     {
-        bool status = m_client->LoadModel();
+        std::thread([this]()
+            {
+                apiProgress().IsActive(true);
 
-        if (!status)
-        {
-            UpdateTextBlock("モデルのロード中にエラーが発生しました");
-        }
+                bool status = m_client->LoadModel();
+
+                if (!status)
+                {
+                    UpdateTextBlock("モデルのロード中にエラーが発生しました");
+                }
+
+                apiProgress().IsActive(false);
+            }).detach();
     }
 
     void MainWindow::TranslateToJPButton_Click(IInspectable const& sender, RoutedEventArgs const& e)
@@ -67,12 +75,24 @@ namespace winrt::desktop::implementation
 
     void MainWindow::DestroyModelButton_Click(IInspectable const& sender, RoutedEventArgs const& e)
     {
-        bool status = m_client->FreeModel();
+        std::thread([this]()
+            {
+                apiProgress().IsActive(true);
 
-        if (!status)
-        {
-            UpdateTextBlock("モデルの破棄中にエラーが発生しました");
-        }
+                bool status = m_client->FreeModel();
+
+                if (!status)
+                {
+                    UpdateTextBlock("モデルの破棄中にエラーが発生しました");
+                }
+
+                apiProgress().IsActive(false);
+            }).detach();
+    }
+
+    void MainWindow::Window_Closed(IInspectable const& sender, WindowEventArgs const& args)
+    {
+        m_client->FreeModel();
     }
 
     void MainWindow::UpdateTextBlock(const std::string& text)
