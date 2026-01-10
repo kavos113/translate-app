@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="desktop.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:desktop"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="desktop">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid RowSpacing="12">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+        
+            <RichEditBox Grid.Column="1" x:Name="inputbox" />
+            <StackPanel Grid.Row="1"
+                        Orientation="Horizontal"
+                        Spacing="8"
+                        HorizontalAlignment="Right">
+                <Button Content="Load Model"
+                        Click="LoadModelButton_Click" />
+                <Button Content="Translate to JP"
+                        Click="TranslateToJPButton_Click"
+                        Style="{StaticResource AccentButtonStyle}" />
+                <Button Content="Translate to EN"
+                        Click="TranslateToENButton_Click"
+                        Style="{StaticResource AccentButtonStyle}" />
+                <Button Content="Destroy Model"
+                        Click="DestroyModelButton_Click" />
+            </StackPanel>
+
+        </Grid>
+        <RichTextBlock Grid.Column="0" TextAlignment="Justify" Margin="12,0">
+            
+        </RichTextBlock>
+    </Grid>
+</Window>
