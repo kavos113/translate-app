@@ -27,16 +27,23 @@
                         Spacing="8"
                         HorizontalAlignment="Right"
                         Margin="0,10">
-                <ProgressRing x:Name="apiProgress" IsActive="false" />
+                <ProgressRing x:Name="apiProgress" IsActive="False" />
                 <Button Content="Load Model"
+                        x:Name="loadButton"
                         Click="LoadModelButton_Click" />
                 <Button Content="Translate to JP"
+                        x:Name="translateToJPButton"
+                        IsEnabled="False"
                         Click="TranslateToJPButton_Click"
                         Style="{StaticResource AccentButtonStyle}" />
                 <Button Content="Translate to EN"
+                        x:Name="translateToENButton"
+                        IsEnabled="False"
                         Click="TranslateToENButton_Click"
                         Style="{StaticResource AccentButtonStyle}" />
                 <Button Content="Destroy Model"
+                        x:Name="destroyButton"
+                        IsEnabled="False"
                         Click="DestroyModelButton_Click" />
             </StackPanel>
 

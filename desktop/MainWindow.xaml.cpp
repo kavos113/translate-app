@@ -40,18 +40,26 @@ namespace winrt::desktop::implementation
 
     void MainWindow::LoadModelButton_Click(IInspectable const& sender, RoutedEventArgs const& e)
     {
+        apiProgress().IsActive(true);
+
         std::thread([this]()
             {
-                apiProgress().IsActive(true);
-
                 bool status = m_client->LoadModel();
 
-                if (!status)
-                {
-                    UpdateTextBlock("モデルのロード中にエラーが発生しました");
-                }
+                this->DispatcherQueue().TryEnqueue([this, status]()
+                    {
+                        if (!status)
+                        {
+                            UpdateTextBlock("モデルのロード中にエラーが発生しました");
+                        }
 
-                apiProgress().IsActive(false);
+                        apiProgress().IsActive(false);
+                        translateToENButton().IsEnabled(true);
+                        translateToJPButton().IsEnabled(true);
+                        destroyButton().IsEnabled(true);
+                        loadButton().IsEnabled(false);
+                    }
+                );
             }).detach();
     }
 
@@ -75,18 +83,26 @@ namespace winrt::desktop::implementation
 
     void MainWindow::DestroyModelButton_Click(IInspectable const& sender, RoutedEventArgs const& e)
     {
+        apiProgress().IsActive(true);
+
         std::thread([this]()
             {
-                apiProgress().IsActive(true);
-
                 bool status = m_client->FreeModel();
 
-                if (!status)
-                {
-                    UpdateTextBlock("モデルの破棄中にエラーが発生しました");
-                }
+                this->DispatcherQueue().TryEnqueue([this, status]()
+                    {
+                        if (!status)
+                        {
+                            UpdateTextBlock("モデルの破棄中にエラーが発生しました");
+                        }
 
-                apiProgress().IsActive(false);
+                        apiProgress().IsActive(false);
+                        translateToENButton().IsEnabled(false);
+                        translateToJPButton().IsEnabled(false);
+                        destroyButton().IsEnabled(false);
+                        loadButton().IsEnabled(true);
+                    }
+                );
             }).detach();
     }
 
