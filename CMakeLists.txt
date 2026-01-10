@@ -36,7 +36,7 @@ function(proto_gen PROTO_FILE DIR SRC HDR)
             ARGS --grpc_out=${CMAKE_CURRENT_SOURCE_DIR}/${DIR}
             --cpp_out=${CMAKE_CURRENT_SOURCE_DIR}/${DIR}
             --plugin=protoc-gen-grpc=${gRPC_CPP_PLUGIN}
-            -I ${CMAKE_CURRENT_SOURCE_DIR}
+            -I ${CMAKE_CURRENT_SOURCE_DIR}/${DIR}
             ${CMAKE_CURRENT_SOURCE_DIR}/${PROTO_FILE}
             DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${PROTO_FILE} protobuf::protoc gRPC::grpc_cpp_plugin
             COMMENT "compiling proto"
