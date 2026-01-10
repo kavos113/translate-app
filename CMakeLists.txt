@@ -22,19 +22,19 @@ find_package(Protobuf CONFIG REQUIRED)
 
 get_target_property(gRPC_CPP_PLUGIN gRPC::grpc_cpp_plugin LOCATION)
 
-function(proto_gen PROTO_FILE SRC HDR)
+function(proto_gen PROTO_FILE DIR SRC HDR)
     get_filename_component(FILE_NAME ${PROTO_FILE} NAME_WE)
 
-    set(_pb_cc "${CMAKE_CURRENT_SOURCE_DIR}/${FILE_NAME}.pb.cc")
-    set(_pb_h "${CMAKE_CURRENT_SOURCE_DIR}/${FILE_NAME}.pb.h")
-    set(_grpc_pb_cc "${CMAKE_CURRENT_SOURCE_DIR}/${FILE_NAME}.grpc.pb.cc")
-    set(_grpc_pb_h "${CMAKE_CURRENT_SOURCE_DIR}/${FILE_NAME}.grpc.pb.h")
+    set(_pb_cc "${CMAKE_CURRENT_SOURCE_DIR}/${DIR}/${FILE_NAME}.pb.cc")
+    set(_pb_h "${CMAKE_CURRENT_SOURCE_DIR}/${DIR}/${FILE_NAME}.pb.h")
+    set(_grpc_pb_cc "${CMAKE_CURRENT_SOURCE_DIR}/${DIR}/${FILE_NAME}.grpc.pb.cc")
+    set(_grpc_pb_h "${CMAKE_CURRENT_SOURCE_DIR}/${DIR}/${FILE_NAME}.grpc.pb.h")
 
     add_custom_command(
             OUTPUT "${_pb_cc}" "${_pb_h}" "${_grpc_pb_cc}" "${_grpc_pb_h}"
             COMMAND ${Protobuf_PROTOC_EXECUTABLE}
-            ARGS --grpc_out=${CMAKE_CURRENT_SOURCE_DIR}
-            --cpp_out=${CMAKE_CURRENT_SOURCE_DIR}
+            ARGS --grpc_out=${CMAKE_CURRENT_SOURCE_DIR}/${DIR}
+            --cpp_out=${CMAKE_CURRENT_SOURCE_DIR}/${DIR}
             --plugin=protoc-gen-grpc=${gRPC_CPP_PLUGIN}
             -I ${CMAKE_CURRENT_SOURCE_DIR}
             ${CMAKE_CURRENT_SOURCE_DIR}/${PROTO_FILE}
@@ -50,15 +50,17 @@ endfunction()
 set(PROTO_SRC)
 set(PROTO_HDR)
 
-proto_gen(server/translate.proto PROTO_SRC PROTO_HDR)
+proto_gen(proto/translate.proto proto PROTO_SRC PROTO_HDR)
 
 add_executable(translate
         engine/translate_engine.h
         engine/translate_engine.cpp
         server/translate_server.h
+        server/main.cpp
         ${PROTO_SRC} ${PROTO_HDR}
 )
 target_include_directories(translate PRIVATE engine)
+target_include_directories(translate PRIVATE proto)
 target_link_libraries(translate PRIVATE
         llama
         gRPC::grpc++

@@ -3,8 +3,8 @@
 
 #include <grpcpp/grpcpp.h>
 
-#include "translate.grpc.pb.h"
-#include "translate.pb.h"
+#include <translate.grpc.pb.h>
+#include <translate.pb.h>
 
 #include "translate_engine.h"
 
