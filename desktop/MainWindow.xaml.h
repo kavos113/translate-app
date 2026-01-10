@@ -1,16 +1,16 @@
 #pragma once
 
 #include "MainWindow.g.h"
+#include "client.h"
+
+#include <memory>
 
 namespace winrt::desktop::implementation
 {
     struct MainWindow : MainWindowT<MainWindow>
     {
-        MainWindow()
-        {
-            // Xaml objects should not call InitializeComponent during construction.
-            // See https://github.com/microsoft/cppwinrt/tree/master/nuget#initializecomponent
-        }
+    public:
+        MainWindow();
 
         int32_t MyProperty();
         void MyProperty(int32_t value);
@@ -18,6 +18,11 @@ namespace winrt::desktop::implementation
         void TranslateToJPButton_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e);
         void TranslateToENButton_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e);
         void DestroyModelButton_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e);
+
+    private:
+        void UpdateTextBlock(const std::string& text);
+
+        std::unique_ptr<client> m_client;
     };
 }
 

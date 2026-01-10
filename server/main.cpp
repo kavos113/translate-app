@@ -11,7 +11,7 @@
 
 int main()
 {
-    constexpr uint16_t port = 50051;
+    constexpr uint16_t port = 50551;
 
     std::string server_address = std::format("0.0.0.0:{}", port);
 

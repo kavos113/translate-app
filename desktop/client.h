@@ -21,12 +21,24 @@ public:
 
 	}
 
-	void LoadModel()
+	bool LoadModel()
 	{
 		Empty request, response;
 		grpc::ClientContext ctx;
 
 		auto status = m_stub->LoadModel(&ctx, request, &response);
+
+		return status.ok();
+	}
+
+	bool FreeModel()
+	{
+		Empty request, response;
+		grpc::ClientContext ctx;
+
+		auto status = m_stub->FreeModel(&ctx, request, &response);
+
+		return status.ok();
 	}
 
 	std::string Translate(const std::string& content, bool is_jp_to_en)

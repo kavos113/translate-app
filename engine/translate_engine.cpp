@@ -26,24 +26,11 @@ bool translate_engine::load_model()
         return false;
     }
     
-    llama_sampler_chain_params sampler_params = llama_sampler_chain_default_params();
-    sampler_params.no_perf = false;
-    
-    m_sampler = llama_sampler_chain_init(sampler_params);
-    if (m_sampler != nullptr)
-    {
-        std::cerr << "failed to create sampler" << std::endl;
-        return false;
-    }
-    
-    llama_sampler_chain_add(m_sampler, llama_sampler_init_greedy());
-    
     return true;
 }
 
 void translate_engine::free_model()
 {
-    llama_sampler_free(m_sampler);
     llama_model_free(m_model);
 }
 
