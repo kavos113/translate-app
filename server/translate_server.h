@@ -8,6 +8,8 @@
 
 #include "translate_engine.h"
 
+#include <functional>
+
 using translate::TranslateService;
 using translate::TranslateRequest;
 using translate::TranslateResponse;
@@ -46,22 +48,34 @@ public:
     grpc::Status Translate(
         grpc::ServerContext* context,
         const TranslateRequest* request,
-        TranslateResponse* response
+        grpc::ServerWriter<TranslateResponse> *writer
     ) override
     {
         std::string content = request->content();
+
+        if (context->IsCancelled())
+        {
+            return grpc::Status::CANCELLED;
+        }
+
+        std::function callback = [writer](const std::string& token)
+        {
+            TranslateResponse response;
+            response.set_content(token);
+
+            writer->Write(response);
+        };
+
         if (request->is_jp_to_en())
         {
-            std::string result = m_engine.translate_jp_to_en(content);
-            response->set_content(result);
-            return grpc::Status::OK;
+            m_engine.translate_jp_to_en(content, callback);
         }
         else
         {
-            std::string result = m_engine.translate_en_to_jp(content);
-            response->set_content(result);
-            return grpc::Status::OK;
+            m_engine.translate_en_to_jp(content, callback);
         }
+
+        return grpc::Status::OK;
     }
 
 private:

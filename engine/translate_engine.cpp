@@ -34,25 +34,25 @@ void translate_engine::free_model()
     llama_model_free(m_model);
 }
 
-std::string translate_engine::translate_en_to_jp(const std::string& jp)
+void translate_engine::translate_en_to_jp(const std::string& en, const std::function<void(const std::string&)>& token_output_callback)
 {
     std::stringstream ss;
-    ss << "<|plamo:op|>dataset\ntranslation\n<|plamo:op|>input lang=English\n" << jp <<"\n<|plamo:op|>output lang=Japanese";
+    ss << "<|plamo:op|>dataset\ntranslation\n<|plamo:op|>input lang=English\n" << en <<"\n<|plamo:op|>output lang=Japanese";
     std::string prompt = ss.str();
     
-    return translate(prompt);
+    return translate(prompt, token_output_callback);
 }
 
-std::string translate_engine::translate_jp_to_en(const std::string& en)
+void translate_engine::translate_jp_to_en(const std::string& jp, const std::function<void(const std::string&)>& token_output_callback)
 {
     std::stringstream ss;
-    ss << "<|plamo:op|>dataset\ntranslation\n<|plamo:op|>input lang=Japanese\n" << en <<"\n<|plamo:op|>output lang=English";
+    ss << "<|plamo:op|>dataset\ntranslation\n<|plamo:op|>input lang=Japanese\n" << jp <<"\n<|plamo:op|>output lang=English";
     std::string prompt = ss.str();
     
-    return translate(en);
+    return translate(prompt, token_output_callback);
 }
 
-std::string translate_engine::translate(const std::string& prompt)
+void translate_engine::translate(const std::string& prompt, const std::function<void(const std::string&)>& token_output_callback)
 {
     if (m_model == nullptr)
     {
@@ -66,7 +66,7 @@ std::string translate_engine::translate(const std::string& prompt)
     if (llama_tokenize(vocab, prompt.c_str(), prompt.size(), prompt_tokens.data(), prompt_tokens.size(), true, true) < 0)
     {
         std::cerr << "failed to tokenize prompt" << std::endl;
-        return "";
+        return;
     }
 
     llama_context_params ctx_params = llama_context_default_params();
@@ -78,7 +78,7 @@ std::string translate_engine::translate(const std::string& prompt)
     if (ctx == nullptr)
     {
         std::cerr << "failed to init model" << std::endl;
-        return "";
+        return;
     }
 
     llama_sampler_chain_params sampler_params = llama_sampler_chain_default_params();
@@ -94,10 +94,9 @@ std::string translate_engine::translate(const std::string& prompt)
         if (n < 0)
         {
             std::cerr << "failed to convert token to piece" << std::endl;
-            return "";
+            return;
         }
         std::string s(buf, n);
-        std::cout << s;
     }
 
     llama_batch batch = llama_batch_get_one(prompt_tokens.data(), prompt_tokens.size());
@@ -107,7 +106,7 @@ std::string translate_engine::translate(const std::string& prompt)
         if (llama_encode(ctx, batch))
         {
             std::cerr << "failed to eval" << std::endl;
-            return "";
+            return;
         }
 
         llama_token decoder_start_token_id = llama_model_decoder_start_token(m_model);
@@ -123,14 +122,12 @@ std::string translate_engine::translate(const std::string& prompt)
     int n_decode = 0;
     llama_token new_token_id;
 
-    std::stringstream result;
-
     for (int n_pos = 0; n_pos + batch.n_tokens < n_prompt + N_PREDICT; )
     {
         if (llama_decode(ctx, batch))
         {
             std::cerr << "failed to decode" << std::endl;
-            return "";
+            return;
         }
 
         n_pos += batch.n_tokens;
@@ -147,13 +144,11 @@ std::string translate_engine::translate(const std::string& prompt)
         if (n < 0)
         {
             std::cerr << "failed to convert token to piece" << std::endl;
-            return "";
+            return;
         }
 
         std::string s(buf, n);
-        std::cout << s;
-        result << s;
-        fflush(stdout);
+        token_output_callback(s);
 
         batch = llama_batch_get_one(&new_token_id, 1);
 
@@ -172,6 +167,4 @@ std::string translate_engine::translate(const std::string& prompt)
     std::cout << std::endl;
 
     llama_free(ctx);
-
-    return result.str();
 }

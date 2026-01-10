@@ -4,6 +4,7 @@
 #include "llama.h"
 
 #include <string>
+#include <functional>
 
 class translate_engine
 {
@@ -14,11 +15,11 @@ public:
     bool load_model();
     void free_model();
 
-    std::string translate_en_to_jp(const std::string& jp);
-    std::string translate_jp_to_en(const std::string& en);
+    void translate_en_to_jp(const std::string& en, const std::function<void(const std::string&)>& token_output_callback);
+    void translate_jp_to_en(const std::string& jp, const std::function<void(const std::string&)>& token_output_callback);
 
 private:
-    std::string translate(const std::string& prompt);
+    void translate(const std::string& prompt, const std::function<void(const std::string&)>& token_output_callback);
 
     llama_model *m_model = nullptr;
 
