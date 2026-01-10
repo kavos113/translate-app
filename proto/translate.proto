@@ -7,7 +7,7 @@ import "google/protobuf/empty.proto";
 service TranslateService {
   rpc LoadModel (google.protobuf.Empty) returns (google.protobuf.Empty) {}
   rpc FreeModel (google.protobuf.Empty) returns (google.protobuf.Empty) {}
-  rpc Translate (TranslateRequest) returns (TranslateResponse) {}
+  rpc Translate (TranslateRequest) returns (stream TranslateResponse) {}
 }
 
 message TranslateRequest {

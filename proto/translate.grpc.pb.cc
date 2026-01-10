@@ -36,7 +36,7 @@ std::unique_ptr< TranslateService::Stub> TranslateService::NewStub(const std::sh
 TranslateService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options)
   : channel_(channel), rpcmethod_LoadModel_(TranslateService_method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_FreeModel_(TranslateService_method_names[1], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_Translate_(TranslateService_method_names[2], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_Translate_(TranslateService_method_names[2], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
   {}
 
 ::grpc::Status TranslateService::Stub::LoadModel(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::google::protobuf::Empty* response) {
@@ -85,27 +85,20 @@ void TranslateService::Stub::async::FreeModel(::grpc::ClientContext* context, co
   return result;
 }
 
-::grpc::Status TranslateService::Stub::Translate(::grpc::ClientContext* context, const ::translate::TranslateRequest& request, ::translate::TranslateResponse* response) {
-  return ::grpc::internal::BlockingUnaryCall< ::translate::TranslateRequest, ::translate::TranslateResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_Translate_, context, request, response);
+::grpc::ClientReader< ::translate::TranslateResponse>* TranslateService::Stub::TranslateRaw(::grpc::ClientContext* context, const ::translate::TranslateRequest& request) {
+  return ::grpc::internal::ClientReaderFactory< ::translate::TranslateResponse>::Create(channel_.get(), rpcmethod_Translate_, context, request);
 }
 
-void TranslateService::Stub::async::Translate(::grpc::ClientContext* context, const ::translate::TranslateRequest* request, ::translate::TranslateResponse* response, std::function<void(::grpc::Status)> f) {
-  ::grpc::internal::CallbackUnaryCall< ::translate::TranslateRequest, ::translate::TranslateResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Translate_, context, request, response, std::move(f));
+void TranslateService::Stub::async::Translate(::grpc::ClientContext* context, const ::translate::TranslateRequest* request, ::grpc::ClientReadReactor< ::translate::TranslateResponse>* reactor) {
+  ::grpc::internal::ClientCallbackReaderFactory< ::translate::TranslateResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_Translate_, context, request, reactor);
 }
 
-void TranslateService::Stub::async::Translate(::grpc::ClientContext* context, const ::translate::TranslateRequest* request, ::translate::TranslateResponse* response, ::grpc::ClientUnaryReactor* reactor) {
-  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Translate_, context, request, response, reactor);
+::grpc::ClientAsyncReader< ::translate::TranslateResponse>* TranslateService::Stub::AsyncTranslateRaw(::grpc::ClientContext* context, const ::translate::TranslateRequest& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::translate::TranslateResponse>::Create(channel_.get(), cq, rpcmethod_Translate_, context, request, true, tag);
 }
 
-::grpc::ClientAsyncResponseReader< ::translate::TranslateResponse>* TranslateService::Stub::PrepareAsyncTranslateRaw(::grpc::ClientContext* context, const ::translate::TranslateRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::translate::TranslateResponse, ::translate::TranslateRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_Translate_, context, request);
-}
-
-::grpc::ClientAsyncResponseReader< ::translate::TranslateResponse>* TranslateService::Stub::AsyncTranslateRaw(::grpc::ClientContext* context, const ::translate::TranslateRequest& request, ::grpc::CompletionQueue* cq) {
-  auto* result =
-    this->PrepareAsyncTranslateRaw(context, request, cq);
-  result->StartCall();
-  return result;
+::grpc::ClientAsyncReader< ::translate::TranslateResponse>* TranslateService::Stub::PrepareAsyncTranslateRaw(::grpc::ClientContext* context, const ::translate::TranslateRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::translate::TranslateResponse>::Create(channel_.get(), cq, rpcmethod_Translate_, context, request, false, nullptr);
 }
 
 TranslateService::Service::Service() {
@@ -131,13 +124,13 @@ TranslateService::Service::Service() {
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       TranslateService_method_names[2],
-      ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< TranslateService::Service, ::translate::TranslateRequest, ::translate::TranslateResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+      ::grpc::internal::RpcMethod::SERVER_STREAMING,
+      new ::grpc::internal::ServerStreamingHandler< TranslateService::Service, ::translate::TranslateRequest, ::translate::TranslateResponse>(
           [](TranslateService::Service* service,
              ::grpc::ServerContext* ctx,
              const ::translate::TranslateRequest* req,
-             ::translate::TranslateResponse* resp) {
-               return service->Translate(ctx, req, resp);
+             ::grpc::ServerWriter<::translate::TranslateResponse>* writer) {
+               return service->Translate(ctx, req, writer);
              }, this)));
 }
 
@@ -158,10 +151,10 @@ TranslateService::Service::~Service() {
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status TranslateService::Service::Translate(::grpc::ServerContext* context, const ::translate::TranslateRequest* request, ::translate::TranslateResponse* response) {
+::grpc::Status TranslateService::Service::Translate(::grpc::ServerContext* context, const ::translate::TranslateRequest* request, ::grpc::ServerWriter< ::translate::TranslateResponse>* writer) {
   (void) context;
   (void) request;
-  (void) response;
+  (void) writer;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 

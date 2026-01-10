@@ -123,13 +123,13 @@ const char descriptor_table_protodef_translate_2eproto[] ABSL_ATTRIBUTE_SECTION_
     "\n\017translate.proto\022\ttranslate\032\033google/pro"
     "tobuf/empty.proto\"8\n\020TranslateRequest\022\017\n"
     "\007content\030\001 \001(\t\022\023\n\013is_jp_to_en\030\002 \001(\010\"$\n\021T"
-    "ranslateResponse\022\017\n\007content\030\001 \001(\t2\332\001\n\020Tr"
+    "ranslateResponse\022\017\n\007content\030\001 \001(\t2\334\001\n\020Tr"
     "anslateService\022=\n\tLoadModel\022\026.google.pro"
     "tobuf.Empty\032\026.google.protobuf.Empty\"\000\022=\n"
     "\tFreeModel\022\026.google.protobuf.Empty\032\026.goo"
-    "gle.protobuf.Empty\"\000\022H\n\tTranslate\022\033.tran"
+    "gle.protobuf.Empty\"\000\022J\n\tTranslate\022\033.tran"
     "slate.TranslateRequest\032\034.translate.Trans"
-    "lateResponse\"\000b\006proto3"
+    "lateResponse\"\0000\001b\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_translate_2eproto_deps[1] =
     {
@@ -139,7 +139,7 @@ static ::absl::once_flag descriptor_table_translate_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_translate_2eproto = {
     false,
     false,
-    382,
+    384,
     descriptor_table_protodef_translate_2eproto,
     "translate.proto",
     &descriptor_table_translate_2eproto_once,

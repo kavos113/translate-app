@@ -50,12 +50,14 @@ class TranslateService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>> PrepareAsyncFreeModel(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>>(PrepareAsyncFreeModelRaw(context, request, cq));
     }
-    virtual ::grpc::Status Translate(::grpc::ClientContext* context, const ::translate::TranslateRequest& request, ::translate::TranslateResponse* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::translate::TranslateResponse>> AsyncTranslate(::grpc::ClientContext* context, const ::translate::TranslateRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::translate::TranslateResponse>>(AsyncTranslateRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientReaderInterface< ::translate::TranslateResponse>> Translate(::grpc::ClientContext* context, const ::translate::TranslateRequest& request) {
+      return std::unique_ptr< ::grpc::ClientReaderInterface< ::translate::TranslateResponse>>(TranslateRaw(context, request));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::translate::TranslateResponse>> PrepareAsyncTranslate(::grpc::ClientContext* context, const ::translate::TranslateRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::translate::TranslateResponse>>(PrepareAsyncTranslateRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::translate::TranslateResponse>> AsyncTranslate(::grpc::ClientContext* context, const ::translate::TranslateRequest& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::translate::TranslateResponse>>(AsyncTranslateRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::translate::TranslateResponse>> PrepareAsyncTranslate(::grpc::ClientContext* context, const ::translate::TranslateRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::translate::TranslateResponse>>(PrepareAsyncTranslateRaw(context, request, cq));
     }
     class async_interface {
      public:
@@ -64,8 +66,7 @@ class TranslateService final {
       virtual void LoadModel(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       virtual void FreeModel(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)>) = 0;
       virtual void FreeModel(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      virtual void Translate(::grpc::ClientContext* context, const ::translate::TranslateRequest* request, ::translate::TranslateResponse* response, std::function<void(::grpc::Status)>) = 0;
-      virtual void Translate(::grpc::ClientContext* context, const ::translate::TranslateRequest* request, ::translate::TranslateResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void Translate(::grpc::ClientContext* context, const ::translate::TranslateRequest* request, ::grpc::ClientReadReactor< ::translate::TranslateResponse>* reactor) = 0;
     };
     typedef class async_interface experimental_async_interface;
     virtual class async_interface* async() { return nullptr; }
@@ -75,8 +76,9 @@ class TranslateService final {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>* PrepareAsyncLoadModelRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>* AsyncFreeModelRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>* PrepareAsyncFreeModelRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::translate::TranslateResponse>* AsyncTranslateRaw(::grpc::ClientContext* context, const ::translate::TranslateRequest& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::translate::TranslateResponse>* PrepareAsyncTranslateRaw(::grpc::ClientContext* context, const ::translate::TranslateRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientReaderInterface< ::translate::TranslateResponse>* TranslateRaw(::grpc::ClientContext* context, const ::translate::TranslateRequest& request) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::translate::TranslateResponse>* AsyncTranslateRaw(::grpc::ClientContext* context, const ::translate::TranslateRequest& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::translate::TranslateResponse>* PrepareAsyncTranslateRaw(::grpc::ClientContext* context, const ::translate::TranslateRequest& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
@@ -95,12 +97,14 @@ class TranslateService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>> PrepareAsyncFreeModel(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>>(PrepareAsyncFreeModelRaw(context, request, cq));
     }
-    ::grpc::Status Translate(::grpc::ClientContext* context, const ::translate::TranslateRequest& request, ::translate::TranslateResponse* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::translate::TranslateResponse>> AsyncTranslate(::grpc::ClientContext* context, const ::translate::TranslateRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::translate::TranslateResponse>>(AsyncTranslateRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientReader< ::translate::TranslateResponse>> Translate(::grpc::ClientContext* context, const ::translate::TranslateRequest& request) {
+      return std::unique_ptr< ::grpc::ClientReader< ::translate::TranslateResponse>>(TranslateRaw(context, request));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::translate::TranslateResponse>> PrepareAsyncTranslate(::grpc::ClientContext* context, const ::translate::TranslateRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::translate::TranslateResponse>>(PrepareAsyncTranslateRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::translate::TranslateResponse>> AsyncTranslate(::grpc::ClientContext* context, const ::translate::TranslateRequest& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::translate::TranslateResponse>>(AsyncTranslateRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::translate::TranslateResponse>> PrepareAsyncTranslate(::grpc::ClientContext* context, const ::translate::TranslateRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::translate::TranslateResponse>>(PrepareAsyncTranslateRaw(context, request, cq));
     }
     class async final :
       public StubInterface::async_interface {
@@ -109,8 +113,7 @@ class TranslateService final {
       void LoadModel(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response, ::grpc::ClientUnaryReactor* reactor) override;
       void FreeModel(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)>) override;
       void FreeModel(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response, ::grpc::ClientUnaryReactor* reactor) override;
-      void Translate(::grpc::ClientContext* context, const ::translate::TranslateRequest* request, ::translate::TranslateResponse* response, std::function<void(::grpc::Status)>) override;
-      void Translate(::grpc::ClientContext* context, const ::translate::TranslateRequest* request, ::translate::TranslateResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void Translate(::grpc::ClientContext* context, const ::translate::TranslateRequest* request, ::grpc::ClientReadReactor< ::translate::TranslateResponse>* reactor) override;
      private:
       friend class Stub;
       explicit async(Stub* stub): stub_(stub) { }
@@ -126,8 +129,9 @@ class TranslateService final {
     ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* PrepareAsyncLoadModelRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* AsyncFreeModelRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* PrepareAsyncFreeModelRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::translate::TranslateResponse>* AsyncTranslateRaw(::grpc::ClientContext* context, const ::translate::TranslateRequest& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::translate::TranslateResponse>* PrepareAsyncTranslateRaw(::grpc::ClientContext* context, const ::translate::TranslateRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientReader< ::translate::TranslateResponse>* TranslateRaw(::grpc::ClientContext* context, const ::translate::TranslateRequest& request) override;
+    ::grpc::ClientAsyncReader< ::translate::TranslateResponse>* AsyncTranslateRaw(::grpc::ClientContext* context, const ::translate::TranslateRequest& request, ::grpc::CompletionQueue* cq, void* tag) override;
+    ::grpc::ClientAsyncReader< ::translate::TranslateResponse>* PrepareAsyncTranslateRaw(::grpc::ClientContext* context, const ::translate::TranslateRequest& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_LoadModel_;
     const ::grpc::internal::RpcMethod rpcmethod_FreeModel_;
     const ::grpc::internal::RpcMethod rpcmethod_Translate_;
@@ -140,7 +144,7 @@ class TranslateService final {
     virtual ~Service();
     virtual ::grpc::Status LoadModel(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response);
     virtual ::grpc::Status FreeModel(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response);
-    virtual ::grpc::Status Translate(::grpc::ServerContext* context, const ::translate::TranslateRequest* request, ::translate::TranslateResponse* response);
+    virtual ::grpc::Status Translate(::grpc::ServerContext* context, const ::translate::TranslateRequest* request, ::grpc::ServerWriter< ::translate::TranslateResponse>* writer);
   };
   template <class BaseClass>
   class WithAsyncMethod_LoadModel : public BaseClass {
@@ -194,12 +198,12 @@ class TranslateService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Translate(::grpc::ServerContext* /*context*/, const ::translate::TranslateRequest* /*request*/, ::translate::TranslateResponse* /*response*/) override {
+    ::grpc::Status Translate(::grpc::ServerContext* /*context*/, const ::translate::TranslateRequest* /*request*/, ::grpc::ServerWriter< ::translate::TranslateResponse>* /*writer*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestTranslate(::grpc::ServerContext* context, ::translate::TranslateRequest* request, ::grpc::ServerAsyncResponseWriter< ::translate::TranslateResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
+    void RequestTranslate(::grpc::ServerContext* context, ::translate::TranslateRequest* request, ::grpc::ServerAsyncWriter< ::translate::TranslateResponse>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(2, context, request, writer, new_call_cq, notification_cq, tag);
     }
   };
   typedef WithAsyncMethod_LoadModel<WithAsyncMethod_FreeModel<WithAsyncMethod_Translate<Service > > > AsyncService;
@@ -264,25 +268,20 @@ class TranslateService final {
    public:
     WithCallbackMethod_Translate() {
       ::grpc::Service::MarkMethodCallback(2,
-          new ::grpc::internal::CallbackUnaryHandler< ::translate::TranslateRequest, ::translate::TranslateResponse>(
+          new ::grpc::internal::CallbackServerStreamingHandler< ::translate::TranslateRequest, ::translate::TranslateResponse>(
             [this](
-                   ::grpc::CallbackServerContext* context, const ::translate::TranslateRequest* request, ::translate::TranslateResponse* response) { return this->Translate(context, request, response); }));}
-    void SetMessageAllocatorFor_Translate(
-        ::grpc::MessageAllocator< ::translate::TranslateRequest, ::translate::TranslateResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(2);
-      static_cast<::grpc::internal::CallbackUnaryHandler< ::translate::TranslateRequest, ::translate::TranslateResponse>*>(handler)
-              ->SetMessageAllocator(allocator);
+                   ::grpc::CallbackServerContext* context, const ::translate::TranslateRequest* request) { return this->Translate(context, request); }));
     }
     ~WithCallbackMethod_Translate() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Translate(::grpc::ServerContext* /*context*/, const ::translate::TranslateRequest* /*request*/, ::translate::TranslateResponse* /*response*/) override {
+    ::grpc::Status Translate(::grpc::ServerContext* /*context*/, const ::translate::TranslateRequest* /*request*/, ::grpc::ServerWriter< ::translate::TranslateResponse>* /*writer*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual ::grpc::ServerUnaryReactor* Translate(
-      ::grpc::CallbackServerContext* /*context*/, const ::translate::TranslateRequest* /*request*/, ::translate::TranslateResponse* /*response*/)  { return nullptr; }
+    virtual ::grpc::ServerWriteReactor< ::translate::TranslateResponse>* Translate(
+      ::grpc::CallbackServerContext* /*context*/, const ::translate::TranslateRequest* /*request*/)  { return nullptr; }
   };
   typedef WithCallbackMethod_LoadModel<WithCallbackMethod_FreeModel<WithCallbackMethod_Translate<Service > > > CallbackService;
   typedef CallbackService ExperimentalCallbackService;
@@ -332,7 +331,7 @@ class TranslateService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Translate(::grpc::ServerContext* /*context*/, const ::translate::TranslateRequest* /*request*/, ::translate::TranslateResponse* /*response*/) override {
+    ::grpc::Status Translate(::grpc::ServerContext* /*context*/, const ::translate::TranslateRequest* /*request*/, ::grpc::ServerWriter< ::translate::TranslateResponse>* /*writer*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -389,12 +388,12 @@ class TranslateService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Translate(::grpc::ServerContext* /*context*/, const ::translate::TranslateRequest* /*request*/, ::translate::TranslateResponse* /*response*/) override {
+    ::grpc::Status Translate(::grpc::ServerContext* /*context*/, const ::translate::TranslateRequest* /*request*/, ::grpc::ServerWriter< ::translate::TranslateResponse>* /*writer*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestTranslate(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
+    void RequestTranslate(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(2, context, request, writer, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -448,20 +447,20 @@ class TranslateService final {
    public:
     WithRawCallbackMethod_Translate() {
       ::grpc::Service::MarkMethodRawCallback(2,
-          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+          new ::grpc::internal::CallbackServerStreamingHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
-                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->Translate(context, request, response); }));
+                   ::grpc::CallbackServerContext* context, const::grpc::ByteBuffer* request) { return this->Translate(context, request); }));
     }
     ~WithRawCallbackMethod_Translate() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Translate(::grpc::ServerContext* /*context*/, const ::translate::TranslateRequest* /*request*/, ::translate::TranslateResponse* /*response*/) override {
+    ::grpc::Status Translate(::grpc::ServerContext* /*context*/, const ::translate::TranslateRequest* /*request*/, ::grpc::ServerWriter< ::translate::TranslateResponse>* /*writer*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual ::grpc::ServerUnaryReactor* Translate(
-      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+    virtual ::grpc::ServerWriteReactor< ::grpc::ByteBuffer>* Translate(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/)  { return nullptr; }
   };
   template <class BaseClass>
   class WithStreamedUnaryMethod_LoadModel : public BaseClass {
@@ -517,36 +516,36 @@ class TranslateService final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedFreeModel(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::google::protobuf::Empty,::google::protobuf::Empty>* server_unary_streamer) = 0;
   };
+  typedef WithStreamedUnaryMethod_LoadModel<WithStreamedUnaryMethod_FreeModel<Service > > StreamedUnaryService;
   template <class BaseClass>
-  class WithStreamedUnaryMethod_Translate : public BaseClass {
+  class WithSplitStreamingMethod_Translate : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithStreamedUnaryMethod_Translate() {
+    WithSplitStreamingMethod_Translate() {
       ::grpc::Service::MarkMethodStreamed(2,
-        new ::grpc::internal::StreamedUnaryHandler<
+        new ::grpc::internal::SplitServerStreamingHandler<
           ::translate::TranslateRequest, ::translate::TranslateResponse>(
             [this](::grpc::ServerContext* context,
-                   ::grpc::ServerUnaryStreamer<
+                   ::grpc::ServerSplitStreamer<
                      ::translate::TranslateRequest, ::translate::TranslateResponse>* streamer) {
                        return this->StreamedTranslate(context,
                          streamer);
                   }));
     }
-    ~WithStreamedUnaryMethod_Translate() override {
+    ~WithSplitStreamingMethod_Translate() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status Translate(::grpc::ServerContext* /*context*/, const ::translate::TranslateRequest* /*request*/, ::translate::TranslateResponse* /*response*/) override {
+    ::grpc::Status Translate(::grpc::ServerContext* /*context*/, const ::translate::TranslateRequest* /*request*/, ::grpc::ServerWriter< ::translate::TranslateResponse>* /*writer*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    // replace default version of method with streamed unary
-    virtual ::grpc::Status StreamedTranslate(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::translate::TranslateRequest,::translate::TranslateResponse>* server_unary_streamer) = 0;
+    // replace default version of method with split streamed
+    virtual ::grpc::Status StreamedTranslate(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::translate::TranslateRequest,::translate::TranslateResponse>* server_split_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_LoadModel<WithStreamedUnaryMethod_FreeModel<WithStreamedUnaryMethod_Translate<Service > > > StreamedUnaryService;
-  typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_LoadModel<WithStreamedUnaryMethod_FreeModel<WithStreamedUnaryMethod_Translate<Service > > > StreamedService;
+  typedef WithSplitStreamingMethod_Translate<Service > SplitStreamedService;
+  typedef WithStreamedUnaryMethod_LoadModel<WithStreamedUnaryMethod_FreeModel<WithSplitStreamingMethod_Translate<Service > > > StreamedService;
 };
 
 }  // namespace translate
