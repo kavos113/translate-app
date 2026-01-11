@@ -5,6 +5,7 @@
 #include "gpu_monitor.h"
 
 #include <memory>
+#include <vector>
 
 namespace winrt::desktop::implementation
 {
@@ -26,9 +27,14 @@ namespace winrt::desktop::implementation
         void AppendTextBlock(const std::string& text);
         void OnGPUTimerTick(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::Foundation::IInspectable const& e);
 
+        void InitGPUInfoTable();
+
         std::unique_ptr<client> m_client;
         gpu_monitor m_monitor;
+        std::vector<gpu_monitor::gpu_adapter_info> m_adapters;
         winrt::Microsoft::UI::Xaml::DispatcherTimer m_gpuInfoTimer{ nullptr };
+
+        std::vector<winrt::Microsoft::UI::Xaml::Controls::TextBlock> m_memoryTexts;
     };
 }
 

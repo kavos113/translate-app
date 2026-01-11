@@ -6,6 +6,7 @@
 
 #include <grpcpp/grpcpp.h>
 #include <thread>
+#include <format>
 
 #include "client.h"
 
@@ -13,10 +14,20 @@ using namespace winrt;
 using namespace winrt::Windows::Foundation;
 using namespace Microsoft::UI::Xaml;
 using namespace Microsoft::UI::Xaml::Documents;
+using namespace Microsoft::UI::Xaml::Controls;
+using namespace Microsoft::UI::Xaml::Media;
 using namespace Microsoft::UI::Text;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
+
+namespace
+{
+    winrt::hstring FormatMemorySize(uint64_t value)
+    {
+        return winrt::to_hstring(std::format("{:.3f} GB", static_cast<double>(value) / (1024.0 * 1024.0)));
+    }
+}
 
 namespace winrt::desktop::implementation
 {
@@ -32,6 +43,61 @@ namespace winrt::desktop::implementation
         m_gpuInfoTimer.Interval(std::chrono::milliseconds(1000));
         m_gpuInfoTimer.Tick({ this, &MainWindow::OnGPUTimerTick });
         m_gpuInfoTimer.Start();
+
+        InitializeComponent();
+
+        InitGPUInfoTable();
+    }
+
+    void MainWindow::InitGPUInfoTable()
+    {
+        m_adapters = m_monitor.GetAdapterInfo();
+
+        gpuInfoTable().Children().Clear();
+        gpuInfoTable().RowDefinitions().Clear();
+        gpuInfoTable().ColumnDefinitions().Clear();
+
+        ColumnDefinition col1;
+        col1.Width(GridLengthHelper::Auto());
+        ColumnDefinition col2;
+        col2.Width(GridLengthHelper::FromPixels(150));
+        ColumnDefinition col3;
+        col3.Width(GridLengthHelper::FromPixels(150));
+
+        gpuInfoTable().ColumnDefinitions().Append(col1);
+        gpuInfoTable().ColumnDefinitions().Append(col2);
+        gpuInfoTable().ColumnDefinitions().Append(col3);
+
+        for (int i = 0; i < m_adapters.size(); i++)
+        {
+            RowDefinition row;
+            row.Height(GridLengthHelper::Auto());
+            gpuInfoTable().RowDefinitions().Append(row);
+
+            TextBlock gpuName;
+            gpuName.Text(m_adapters[i].name);
+            gpuName.Margin({ 5, 5 });
+            Grid::SetRow(gpuName, i);
+            Grid::SetColumn(gpuName, 0);
+            gpuInfoTable().Children().Append(gpuName);
+
+            TextBlock memory;
+            memory.Text(L"0.000 GB");
+            memory.Margin({ 5, 5 });
+            memory.TextAlignment(TextAlignment::Right);
+            m_memoryTexts.push_back(memory);
+            Grid::SetRow(memory, i);
+            Grid::SetColumn(memory, 1);
+            gpuInfoTable().Children().Append(memory);
+
+            TextBlock totalMemory;
+            totalMemory.Text(L"/ " + FormatMemorySize(m_adapters[i].totalMemory));
+            totalMemory.Margin({ 5, 5 });
+            totalMemory.TextAlignment(TextAlignment::Left);
+            Grid::SetRow(totalMemory, i);
+            Grid::SetColumn(totalMemory, 2);
+            gpuInfoTable().Children().Append(totalMemory);
+        }
     }
 
     int32_t MainWindow::MyProperty()
@@ -161,12 +227,10 @@ namespace winrt::desktop::implementation
     {
         auto infos = m_monitor.QueryMemoryInfo();
         
-        gpuInfo().Text(L"");
         for (const auto& info : infos)
         {
-            Run run;
-            run.Text(info.deviceName + L": " + winrt::to_hstring(info.value) + L"\n");
-            gpuInfo().Inlines().Append(run);
+            OutputDebugString(std::format(L"{}: {}\n", info.adapterIndex, info.value).c_str());
+            m_memoryTexts[info.adapterIndex].Text(FormatMemorySize(info.value));
         }
     }
 

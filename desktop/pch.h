@@ -12,6 +12,8 @@
 #include <restrictederrorinfo.h>
 #include <hstring.h>
 
+#include <dxgi1_6.h>
+
 // Undefine GetCurrentTime macro to prevent
 // conflict with Storyboard::GetCurrentTime
 #undef GetCurrentTime

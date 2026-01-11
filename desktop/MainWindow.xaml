@@ -49,7 +49,7 @@
                         Click="DestroyModelButton_Click" />
             </StackPanel>
 
-            <TextBlock Grid.Row="2" x:Name="gpuInfo" />
+            <Grid x:Name="gpuInfoTable" Grid.Row="2" />
 
             <Grid RowSpacing="8" Grid.Row="3">
                 <Grid.RowDefinitions>
