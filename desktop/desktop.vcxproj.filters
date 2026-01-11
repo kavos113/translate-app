@@ -14,10 +14,12 @@
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="..\proto\translate.grpc.pb.cc" />
     <ClCompile Include="..\proto\translate.pb.cc" />
+    <ClCompile Include="gpu_monitor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="client.h" />
+    <ClInclude Include="gpu_monitor.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Wide310x150Logo.scale-200.png">
