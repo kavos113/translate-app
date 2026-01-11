@@ -25,7 +25,7 @@ namespace
 {
     winrt::hstring FormatMemorySize(uint64_t value)
     {
-        return winrt::to_hstring(std::format("{:.3f} GB", static_cast<double>(value) / (1024.0 * 1024.0)));
+        return winrt::to_hstring(std::format("{:.3f} GB", static_cast<double>(value) / (1024.0 * 1024.0 * 1024.0)));
     }
 }
 
@@ -116,6 +116,8 @@ namespace winrt::desktop::implementation
                                 run.Text(winrt::to_hstring(log));
 
                                 gpuLogBlock().Inlines().Append(run);
+
+                                gpuLogScroll().ChangeView(nullptr, gpuLogScroll().ScrollableHeight(), nullptr);
                             });
                     });
             }).detach();
@@ -257,6 +259,8 @@ namespace winrt::desktop::implementation
     void MainWindow::UpdateTextBlock(const std::string& text)
     {
         ResultBlock().Text(winrt::to_hstring(text));
+        ResultScroll().UpdateLayout();
+        ResultScroll().ChangeView(nullptr, ResultScroll().ScrollableHeight(), nullptr);
     }
 
     void MainWindow::AppendTextBlock(const std::string& text)
@@ -265,5 +269,7 @@ namespace winrt::desktop::implementation
         run.Text(winrt::to_hstring(text));
 
         ResultBlock().Inlines().Append(run);
+        ResultScroll().UpdateLayout();
+        ResultScroll().ChangeView(nullptr, ResultScroll().ScrollableHeight(), nullptr);
     }
 }
