@@ -14,7 +14,7 @@ public:
 	struct gpu_memory_info
 	{
 		winrt::hstring deviceName;
-		unsigned long value;
+		uint64_t value;
 	};
 
 	std::vector<gpu_memory_info> QueryMemoryInfo();
@@ -22,6 +22,14 @@ public:
 private:
 	HQUERY m_query = nullptr;
 	HCOUNTER m_counter = nullptr;
+
+	struct GPUAdapter
+	{
+		winrt::hstring luid;
+		winrt::hstring name;
+	};
+
+	std::vector<GPUAdapter> m_adapters;
 
 	const wchar_t* GPU_MEMORY_QUERY = L"\\GPU Adapter Memory(*)\\Dedicated Usage";
 };

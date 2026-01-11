@@ -27,7 +27,7 @@ std::vector<gpu_monitor::gpu_memory_info> gpu_monitor::QueryMemoryInfo()
 {
     if (!m_query || !m_counter)
     {
-        return;
+        return {};
     }
 
     PDH_STATUS status = PdhCollectQueryData(m_query);
@@ -42,7 +42,7 @@ std::vector<gpu_monitor::gpu_memory_info> gpu_monitor::QueryMemoryInfo()
 
     if (bufferSize == 0)
     {
-        return;
+        return {};
     }
 
     std::vector<std::byte> buf(bufferSize);

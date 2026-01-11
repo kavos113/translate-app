@@ -2,6 +2,7 @@
 
 #include "MainWindow.g.h"
 #include "client.h"
+#include "gpu_monitor.h"
 
 #include <memory>
 
@@ -23,8 +24,11 @@ namespace winrt::desktop::implementation
     private:
         void UpdateTextBlock(const std::string& text);
         void AppendTextBlock(const std::string& text);
+        void OnGPUTimerTick(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::Foundation::IInspectable const& e);
 
         std::unique_ptr<client> m_client;
+        gpu_monitor m_monitor;
+        winrt::Microsoft::UI::Xaml::DispatcherTimer m_gpuInfoTimer{ nullptr };
     };
 }
 

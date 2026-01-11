@@ -27,6 +27,11 @@ namespace winrt::desktop::implementation
         m_client = std::make_unique<client>(
             grpc::CreateChannel(server_address, grpc::InsecureChannelCredentials())
         );
+
+        m_gpuInfoTimer = DispatcherTimer();
+        m_gpuInfoTimer.Interval(std::chrono::milliseconds(1000));
+        m_gpuInfoTimer.Tick({ this, &MainWindow::OnGPUTimerTick });
+        m_gpuInfoTimer.Start();
     }
 
     int32_t MainWindow::MyProperty()
@@ -66,6 +71,8 @@ namespace winrt::desktop::implementation
 
     void MainWindow::TranslateToJPButton_Click(IInspectable const& sender, RoutedEventArgs const& e)
     {
+        UpdateTextBlock("");
+
         winrt::hstring htext;
         inputbox().Document().GetText(TextGetOptions::None, htext);
 
@@ -93,6 +100,8 @@ namespace winrt::desktop::implementation
 
     void MainWindow::TranslateToENButton_Click(IInspectable const& sender, RoutedEventArgs const& e)
     {
+        UpdateTextBlock("");
+
         winrt::hstring htext;
         inputbox().Document().GetText(TextGetOptions::None, htext);
 
@@ -146,6 +155,19 @@ namespace winrt::desktop::implementation
     void MainWindow::Window_Closed(IInspectable const& sender, WindowEventArgs const& args)
     {
         m_client->FreeModel();
+    }
+
+    void MainWindow::OnGPUTimerTick(IInspectable const& sender, winrt::Windows::Foundation::IInspectable const& e)
+    {
+        auto infos = m_monitor.QueryMemoryInfo();
+        
+        gpuInfo().Text(L"");
+        for (const auto& info : infos)
+        {
+            Run run;
+            run.Text(info.deviceName + L": " + winrt::to_hstring(info.value) + L"\n");
+            gpuInfo().Inlines().Append(run);
+        }
     }
 
     void MainWindow::UpdateTextBlock(const std::string& text)
