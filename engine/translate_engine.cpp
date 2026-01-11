@@ -34,6 +34,7 @@ void translate_engine::free_model()
     if (m_model)
     {
         llama_model_free(m_model);
+        m_model = nullptr;
     }
 }
 
