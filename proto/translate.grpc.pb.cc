@@ -25,6 +25,7 @@ static const char* TranslateService_method_names[] = {
   "/translate.TranslateService/LoadModel",
   "/translate.TranslateService/FreeModel",
   "/translate.TranslateService/Translate",
+  "/translate.TranslateService/WatchLog",
 };
 
 std::unique_ptr< TranslateService::Stub> TranslateService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -37,6 +38,7 @@ TranslateService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& c
   : channel_(channel), rpcmethod_LoadModel_(TranslateService_method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_FreeModel_(TranslateService_method_names[1], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_Translate_(TranslateService_method_names[2], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_WatchLog_(TranslateService_method_names[3], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
   {}
 
 ::grpc::Status TranslateService::Stub::LoadModel(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::google::protobuf::Empty* response) {
@@ -101,6 +103,22 @@ void TranslateService::Stub::async::Translate(::grpc::ClientContext* context, co
   return ::grpc::internal::ClientAsyncReaderFactory< ::translate::TranslateResponse>::Create(channel_.get(), cq, rpcmethod_Translate_, context, request, false, nullptr);
 }
 
+::grpc::ClientReader< ::translate::LogResponse>* TranslateService::Stub::WatchLogRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request) {
+  return ::grpc::internal::ClientReaderFactory< ::translate::LogResponse>::Create(channel_.get(), rpcmethod_WatchLog_, context, request);
+}
+
+void TranslateService::Stub::async::WatchLog(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::grpc::ClientReadReactor< ::translate::LogResponse>* reactor) {
+  ::grpc::internal::ClientCallbackReaderFactory< ::translate::LogResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_WatchLog_, context, request, reactor);
+}
+
+::grpc::ClientAsyncReader< ::translate::LogResponse>* TranslateService::Stub::AsyncWatchLogRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::translate::LogResponse>::Create(channel_.get(), cq, rpcmethod_WatchLog_, context, request, true, tag);
+}
+
+::grpc::ClientAsyncReader< ::translate::LogResponse>* TranslateService::Stub::PrepareAsyncWatchLogRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::translate::LogResponse>::Create(channel_.get(), cq, rpcmethod_WatchLog_, context, request, false, nullptr);
+}
+
 TranslateService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       TranslateService_method_names[0],
@@ -132,6 +150,16 @@ TranslateService::Service::Service() {
              ::grpc::ServerWriter<::translate::TranslateResponse>* writer) {
                return service->Translate(ctx, req, writer);
              }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      TranslateService_method_names[3],
+      ::grpc::internal::RpcMethod::SERVER_STREAMING,
+      new ::grpc::internal::ServerStreamingHandler< TranslateService::Service, ::google::protobuf::Empty, ::translate::LogResponse>(
+          [](TranslateService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::google::protobuf::Empty* req,
+             ::grpc::ServerWriter<::translate::LogResponse>* writer) {
+               return service->WatchLog(ctx, req, writer);
+             }, this)));
 }
 
 TranslateService::Service::~Service() {
@@ -152,6 +180,13 @@ TranslateService::Service::~Service() {
 }
 
 ::grpc::Status TranslateService::Service::Translate(::grpc::ServerContext* context, const ::translate::TranslateRequest* request, ::grpc::ServerWriter< ::translate::TranslateResponse>* writer) {
+  (void) context;
+  (void) request;
+  (void) writer;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status TranslateService::Service::WatchLog(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::grpc::ServerWriter< ::translate::LogResponse>* writer) {
   (void) context;
   (void) request;
   (void) writer;

@@ -155,16 +155,16 @@ void translate_engine::translate(const std::string& prompt, const std::function<
         n_decode += 1;
     }
 
-    std::cout << std::endl;
+    std::cerr << std::endl;
 
     const int64_t main_end = ggml_time_us();
 
-    std::cout << "decoded " << n_decode << " tokens, " << static_cast<double>(main_end - main_start) / 1000000.0 << "s, " << static_cast<double>(n_decode) / (static_cast<double>(main_end - main_start) / 1000000) << " t/s" << std::endl;
+    std::cerr << "decoded " << n_decode << " tokens, " << static_cast<double>(main_end - main_start) / 1000000.0 << "s, " << static_cast<double>(n_decode) / (static_cast<double>(main_end - main_start) / 1000000) << " t/s" << std::endl;
 
-    std::cout << std::endl;
+    std::cerr << std::endl;
     llama_perf_sampler_print(sampler);
     llama_perf_context_print(ctx);
-    std::cout << std::endl;
+    std::cerr << std::endl;
 
     llama_free(ctx);
 }

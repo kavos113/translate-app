@@ -7,12 +7,15 @@
 #include <translate.pb.h>
 
 #include "translate_engine.h"
+#include "stderr_capturer.h"
+#include "log_queue.h"
 
 #include <functional>
 
 using translate::TranslateService;
 using translate::TranslateRequest;
 using translate::TranslateResponse;
+using translate::LogResponse;
 using google::protobuf::Empty;
 
 class translate_server final : public TranslateService::Service
@@ -78,9 +81,51 @@ public:
         return grpc::Status::OK;
     }
 
+    grpc::Status WatchLog(
+        grpc::ServerContext* context,
+        const Empty* request,
+        grpc::ServerWriter<LogResponse>* writer
+    ) override
+    {
+        if (context->IsCancelled())
+        {
+            m_capturer.stop();
+
+            return grpc::Status::CANCELLED;
+        }
+
+        std::function callback = [this](const std::string& content)
+        {
+            m_logQueue.push(content);
+        };
+
+        m_capturer.set_callback(callback);
+        m_capturer.start();
+
+        while (true)
+        {
+            if (context->IsCancelled())
+            {
+                break;
+            }
+
+            std::string logContent;
+            if (m_logQueue.pop_with_timeout(logContent, 1000))
+            {
+                LogResponse response;
+                response.set_log_content(logContent);
+
+                writer->Write(response);
+            }
+        }
+
+        return grpc::Status::OK;
+    }
+
 private:
     translate_engine m_engine;
+    stderr_capturer m_capturer;
+    log_queue m_logQueue;
 };
-
 
 #endif //SERVER_TRANSLATE_SERVER_H
