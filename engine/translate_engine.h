@@ -23,7 +23,7 @@ private:
 
     llama_model *m_model = nullptr;
 
-    static constexpr int N_PREDICT = 100;
+    static constexpr int N_PREDICT = 100000;
     static constexpr int N_GPU_LAYERS = 99;
 
     const std::string MODEL_PATH = "./plamo-2-translate.gguf";

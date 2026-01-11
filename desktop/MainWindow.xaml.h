@@ -22,6 +22,7 @@ namespace winrt::desktop::implementation
 
     private:
         void UpdateTextBlock(const std::string& text);
+        void AppendTextBlock(const std::string& text);
 
         std::unique_ptr<client> m_client;
     };

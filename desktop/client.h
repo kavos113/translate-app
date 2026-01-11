@@ -6,6 +6,7 @@
 #include <translate.grpc.pb.h>
 
 #include <memory>
+#include <functional>
 
 using translate::TranslateService;
 using translate::TranslateRequest;
@@ -41,7 +42,7 @@ public:
 		return status.ok();
 	}
 
-	std::string Translate(const std::string& content, bool is_jp_to_en)
+	void Translate(const std::string& content, bool is_jp_to_en, std::function<void(const std::string&, bool)> callback)
 	{
 		TranslateRequest request;
 		request.set_content(content);
@@ -50,17 +51,19 @@ public:
 		TranslateResponse response;
 		grpc::ClientContext ctx;
 
-		auto status = m_stub->Translate(&ctx, request, &response);
-
-		if (status.ok())
+		std::unique_ptr reader(m_stub->Translate(&ctx, request));
+		while (reader->Read(&response))
 		{
-			return response.content();
+			callback(response.content(), false);
 		}
-		else
+
+		auto status = reader->Finish();
+
+		if (!status.ok())
 		{
 			std::stringstream ss;
 			ss << "翻訳中にエラーが発生しました: " << status.error_code() << ", " << status.error_message();
-			return ss.str();
+			callback(ss.str(), true);
 		}
 	}
 
