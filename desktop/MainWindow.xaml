@@ -71,6 +71,7 @@
                         <TextBlock x:Name="gpuLogBlock" 
                                TextWrapping="Wrap"
                                Grid.Column="1" 
+                               IsTextSelectionEnabled="True"
                                FontSize="10"
                                FontFamily="Consolas" />
                     </Border>
@@ -82,6 +83,7 @@
                       Grid.Column="1">
             <TextBlock x:Name="ResultBlock" 
                        TextWrapping="Wrap" 
+                       IsTextSelectionEnabled="True"
                        Margin="12,0" />            
         </ScrollViewer>
     </Grid>

@@ -106,19 +106,16 @@ namespace winrt::desktop::implementation
 
     void MainWindow::InitGPULogs()
     {
+        m_logTimer = DispatcherTimer();
+        m_logTimer.Interval(std::chrono::milliseconds(100));
+        m_logTimer.Tick({ this, &MainWindow::OnLogTimerTick });
+        m_logTimer.Start();
+
         std::thread([this]()
             {
                 m_client->WatchLog([this](const std::string& log)
                     {
-                        this->DispatcherQueue().TryEnqueue([this, log]()
-                            {
-                                Run run;
-                                run.Text(winrt::to_hstring(log));
-
-                                gpuLogBlock().Inlines().Append(run);
-
-                                gpuLogScroll().ChangeView(nullptr, gpuLogScroll().ScrollableHeight(), nullptr);
-                            });
+                        m_logBuffer.push_back(log);
                     });
             }).detach();
     }
@@ -246,13 +243,45 @@ namespace winrt::desktop::implementation
         m_client->FreeModel();
     }
 
-    void MainWindow::OnGPUTimerTick(IInspectable const& sender, winrt::Windows::Foundation::IInspectable const& e)
+    void MainWindow::OnGPUTimerTick(IInspectable const& sender, IInspectable const& e)
     {
         auto infos = m_monitor.QueryMemoryInfo();
         
         for (const auto& info : infos)
         {
             m_memoryTexts[info.adapterIndex].Text(FormatMemorySize(info.value));
+        }
+    }
+
+    void MainWindow::OnLogTimerTick(IInspectable const& sender, IInspectable const& e)
+    {
+        std::vector<std::string> logs;
+        
+        {
+            std::lock_guard<std::mutex> lock(m_logMutex);
+            if (m_logBuffer.empty())
+            {
+                return;
+            }
+
+            logs = std::move(m_logBuffer);
+        }
+
+        std::stringstream ss;
+        for (const auto& log : logs)
+        {
+            ss << log;
+        }
+
+        if (!logs.empty())
+        {
+            Run run;
+            run.Text(winrt::to_hstring(ss.str()));
+
+            gpuLogBlock().Inlines().Append(run);
+            gpuLogScroll().UpdateLayout();
+
+            gpuLogScroll().ChangeView(nullptr, gpuLogScroll().ScrollableHeight(), nullptr);
         }
     }
 

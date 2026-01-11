@@ -28,7 +28,6 @@ int main()
     builder.AddChannelArgument(GRPC_ARG_KEEPALIVE_PERMIT_WITHOUT_CALLS, 1);
 
     std::unique_ptr server(builder.BuildAndStart());
-    std::cout << "Listening on: " << server_address << std::endl;
 
     server->Wait();
 

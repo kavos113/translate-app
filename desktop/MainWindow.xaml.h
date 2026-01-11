@@ -26,6 +26,7 @@ namespace winrt::desktop::implementation
         void UpdateTextBlock(const std::string& text);
         void AppendTextBlock(const std::string& text);
         void OnGPUTimerTick(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::Foundation::IInspectable const& e);
+        void OnLogTimerTick(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::Foundation::IInspectable const& e);
 
         void InitGPUInfoTable();
         void InitGPULogs();
@@ -36,6 +37,10 @@ namespace winrt::desktop::implementation
         winrt::Microsoft::UI::Xaml::DispatcherTimer m_gpuInfoTimer{ nullptr };
 
         std::vector<winrt::Microsoft::UI::Xaml::Controls::TextBlock> m_memoryTexts;
+
+        std::vector<std::string> m_logBuffer;
+        std::mutex m_logMutex;
+        winrt::Microsoft::UI::Xaml::DispatcherTimer m_logTimer{ nullptr };
     };
 }
 
