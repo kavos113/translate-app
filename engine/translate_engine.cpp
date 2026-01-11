@@ -31,7 +31,10 @@ bool translate_engine::load_model()
 
 void translate_engine::free_model()
 {
-    llama_model_free(m_model);
+    if (m_model)
+    {
+        llama_model_free(m_model);
+    }
 }
 
 void translate_engine::translate_en_to_jp(const std::string& en, const std::function<void(const std::string&)>& token_output_callback)

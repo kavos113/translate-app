@@ -106,6 +106,8 @@ public:
         {
             if (context->IsCancelled())
             {
+                m_capturer.stop();
+
                 break;
             }
 

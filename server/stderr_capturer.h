@@ -56,12 +56,6 @@ public:
             original_stderr = -1;
         }
 
-        if (m_pipeFds[0] != -1)
-        {
-            _close(m_pipeFds[0]);
-            m_pipeFds[0] = -1;
-        }
-
         if (m_pipeFds[1] != -1)
         {
             _close(m_pipeFds[1]);
@@ -71,6 +65,12 @@ public:
         if (worker.joinable())
         {
             worker.join();
+        }
+
+        if (m_pipeFds[0] != -1)
+        {
+            _close(m_pipeFds[0]);
+            m_pipeFds[0] = -1;
         }
     }
 private:
