@@ -47,6 +47,10 @@ namespace winrt::desktop::implementation
         InitializeComponent();
 
         InitGPUInfoTable();
+        InitGPULogs();
+
+        Microsoft::UI::Windowing::AppWindow appWindow = AppWindow();
+        appWindow.Resize(Windows::Graphics::SizeInt32{1200, 1000});
     }
 
     void MainWindow::InitGPUInfoTable()
@@ -98,6 +102,23 @@ namespace winrt::desktop::implementation
             Grid::SetColumn(totalMemory, 2);
             gpuInfoTable().Children().Append(totalMemory);
         }
+    }
+
+    void MainWindow::InitGPULogs()
+    {
+        std::thread([this]()
+            {
+                m_client->WatchLog([this](const std::string& log)
+                    {
+                        this->DispatcherQueue().TryEnqueue([this, log]()
+                            {
+                                Run run;
+                                run.Text(winrt::to_hstring(log));
+
+                                gpuLogBlock().Inlines().Append(run);
+                            });
+                    });
+            }).detach();
     }
 
     int32_t MainWindow::MyProperty()
@@ -229,7 +250,6 @@ namespace winrt::desktop::implementation
         
         for (const auto& info : infos)
         {
-            OutputDebugString(std::format(L"{}: {}\n", info.adapterIndex, info.value).c_str());
             m_memoryTexts[info.adapterIndex].Text(FormatMemorySize(info.value));
         }
     }

@@ -11,6 +11,7 @@
 using translate::TranslateService;
 using translate::TranslateRequest;
 using translate::TranslateResponse;
+using translate::LogResponse;
 using google::protobuf::Empty;
 
 class client
@@ -64,6 +65,28 @@ public:
 			std::stringstream ss;
 			ss << "翻訳中にエラーが発生しました: " << status.error_code() << ", " << status.error_message();
 			callback(ss.str(), true);
+		}
+	}
+
+	void WatchLog(std::function<void(const std::string&)> callback)
+	{
+		Empty req;
+		LogResponse response;
+		grpc::ClientContext ctx;
+
+		std::unique_ptr reader(m_stub->WatchLog(&ctx, req));
+		while (reader->Read(&response))
+		{
+			callback(response.log_content());
+		}
+
+		auto status = reader->Finish();
+
+		if (!status.ok())
+		{
+			std::stringstream ss;
+			ss << "GPUのログ送信中にエラーが発生しました: " << status.error_code() << ", " << status.error_message();
+			callback(ss.str());
 		}
 	}
 

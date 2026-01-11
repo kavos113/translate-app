@@ -28,6 +28,7 @@ namespace winrt::desktop::implementation
         void OnGPUTimerTick(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::Foundation::IInspectable const& e);
 
         void InitGPUInfoTable();
+        void InitGPULogs();
 
         std::unique_ptr<client> m_client;
         gpu_monitor m_monitor;
