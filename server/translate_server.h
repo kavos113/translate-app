@@ -11,6 +11,7 @@
 #include "log_queue.h"
 
 #include <functional>
+#include <filesystem>
 
 using translate::TranslateService;
 using translate::TranslateRequest;
@@ -23,11 +24,11 @@ class translate_server final : public TranslateService::Service
 public:
     grpc::Status LoadModel(
         grpc::ServerContext* context,
-        const Empty* request,
+        const translate::LoadModelRequest* request,
         Empty* response
     ) override
     {
-        bool res = m_engine.load_model();
+        bool res = m_engine.load_model(request->model_name());
         if (res)
         {
             return grpc::Status::OK;
@@ -118,6 +119,25 @@ public:
                 response.set_log_content(logContent);
 
                 writer->Write(response);
+            }
+        }
+
+        return grpc::Status::OK;
+    }
+
+    grpc::Status ListModel(
+        grpc::ServerContext* context,
+        const Empty* request,
+        translate::ListModelResponse* response
+    ) override
+    {
+        std::filesystem::directory_iterator it{"."};
+        for (const std::filesystem::directory_entry& entry : it)
+        {
+            if (entry.is_regular_file() && entry.path().string().ends_with(".gguf"))
+            {
+                std::string *target = response->add_model_name();
+                *target = entry.path().string();
             }
         }
 

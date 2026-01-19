@@ -53,6 +53,12 @@ struct TableStruct_translate_2eproto {
 extern const ::google::protobuf::internal::DescriptorTable
     descriptor_table_translate_2eproto;
 namespace translate {
+class ListModelResponse;
+struct ListModelResponseDefaultTypeInternal;
+extern ListModelResponseDefaultTypeInternal _ListModelResponse_default_instance_;
+class LoadModelRequest;
+struct LoadModelRequestDefaultTypeInternal;
+extern LoadModelRequestDefaultTypeInternal _LoadModelRequest_default_instance_;
 class LogResponse;
 struct LogResponseDefaultTypeInternal;
 extern LogResponseDefaultTypeInternal _LogResponse_default_instance_;
@@ -134,7 +140,7 @@ class TranslateResponse final : public ::google::protobuf::Message
     return reinterpret_cast<const TranslateResponse*>(
         &_TranslateResponse_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 1;
+  static constexpr int kIndexInFileMessages = 2;
   friend void swap(TranslateResponse& a, TranslateResponse& b) { a.Swap(&b); }
   inline void Swap(TranslateResponse* other) {
     if (other == this) return;
@@ -330,7 +336,7 @@ class TranslateRequest final : public ::google::protobuf::Message
     return reinterpret_cast<const TranslateRequest*>(
         &_TranslateRequest_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 0;
+  static constexpr int kIndexInFileMessages = 1;
   friend void swap(TranslateRequest& a, TranslateRequest& b) { a.Swap(&b); }
   inline void Swap(TranslateRequest* other) {
     if (other == this) return;
@@ -538,7 +544,7 @@ class LogResponse final : public ::google::protobuf::Message
     return reinterpret_cast<const LogResponse*>(
         &_LogResponse_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 2;
+  static constexpr int kIndexInFileMessages = 3;
   friend void swap(LogResponse& a, LogResponse& b) { a.Swap(&b); }
   inline void Swap(LogResponse* other) {
     if (other == this) return;
@@ -673,6 +679,404 @@ class LogResponse final : public ::google::protobuf::Message
   union { Impl_ _impl_; };
   friend struct ::TableStruct_translate_2eproto;
 };
+// -------------------------------------------------------------------
+
+class LoadModelRequest final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:translate.LoadModelRequest) */ {
+ public:
+  inline LoadModelRequest() : LoadModelRequest(nullptr) {}
+  ~LoadModelRequest() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(LoadModelRequest* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(LoadModelRequest));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR LoadModelRequest(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline LoadModelRequest(const LoadModelRequest& from) : LoadModelRequest(nullptr, from) {}
+  inline LoadModelRequest(LoadModelRequest&& from) noexcept
+      : LoadModelRequest(nullptr, std::move(from)) {}
+  inline LoadModelRequest& operator=(const LoadModelRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline LoadModelRequest& operator=(LoadModelRequest&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const LoadModelRequest& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const LoadModelRequest* internal_default_instance() {
+    return reinterpret_cast<const LoadModelRequest*>(
+        &_LoadModelRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 0;
+  friend void swap(LoadModelRequest& a, LoadModelRequest& b) { a.Swap(&b); }
+  inline void Swap(LoadModelRequest* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(LoadModelRequest* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  LoadModelRequest* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<LoadModelRequest>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const LoadModelRequest& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const LoadModelRequest& from) { LoadModelRequest::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(LoadModelRequest* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "translate.LoadModelRequest"; }
+
+ protected:
+  explicit LoadModelRequest(::google::protobuf::Arena* arena);
+  LoadModelRequest(::google::protobuf::Arena* arena, const LoadModelRequest& from);
+  LoadModelRequest(::google::protobuf::Arena* arena, LoadModelRequest&& from) noexcept
+      : LoadModelRequest(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kModelNameFieldNumber = 1,
+  };
+  // string model_name = 1;
+  void clear_model_name() ;
+  const std::string& model_name() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_model_name(Arg_&& arg, Args_... args);
+  std::string* mutable_model_name();
+  PROTOBUF_NODISCARD std::string* release_model_name();
+  void set_allocated_model_name(std::string* value);
+
+  private:
+  const std::string& _internal_model_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_model_name(
+      const std::string& value);
+  std::string* _internal_mutable_model_name();
+
+  public:
+  // @@protoc_insertion_point(class_scope:translate.LoadModelRequest)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 1, 0,
+      45, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const LoadModelRequest& from_msg);
+    ::google::protobuf::internal::ArenaStringPtr model_name_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_translate_2eproto;
+};
+// -------------------------------------------------------------------
+
+class ListModelResponse final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:translate.ListModelResponse) */ {
+ public:
+  inline ListModelResponse() : ListModelResponse(nullptr) {}
+  ~ListModelResponse() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(ListModelResponse* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(ListModelResponse));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR ListModelResponse(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline ListModelResponse(const ListModelResponse& from) : ListModelResponse(nullptr, from) {}
+  inline ListModelResponse(ListModelResponse&& from) noexcept
+      : ListModelResponse(nullptr, std::move(from)) {}
+  inline ListModelResponse& operator=(const ListModelResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ListModelResponse& operator=(ListModelResponse&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const ListModelResponse& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const ListModelResponse* internal_default_instance() {
+    return reinterpret_cast<const ListModelResponse*>(
+        &_ListModelResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 4;
+  friend void swap(ListModelResponse& a, ListModelResponse& b) { a.Swap(&b); }
+  inline void Swap(ListModelResponse* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ListModelResponse* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  ListModelResponse* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<ListModelResponse>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const ListModelResponse& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const ListModelResponse& from) { ListModelResponse::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(ListModelResponse* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "translate.ListModelResponse"; }
+
+ protected:
+  explicit ListModelResponse(::google::protobuf::Arena* arena);
+  ListModelResponse(::google::protobuf::Arena* arena, const ListModelResponse& from);
+  ListModelResponse(::google::protobuf::Arena* arena, ListModelResponse&& from) noexcept
+      : ListModelResponse(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kModelNameFieldNumber = 1,
+  };
+  // repeated string model_name = 1;
+  int model_name_size() const;
+  private:
+  int _internal_model_name_size() const;
+
+  public:
+  void clear_model_name() ;
+  const std::string& model_name(int index) const;
+  std::string* mutable_model_name(int index);
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_model_name(int index, Arg_&& value, Args_... args);
+  std::string* add_model_name();
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void add_model_name(Arg_&& value, Args_... args);
+  const ::google::protobuf::RepeatedPtrField<std::string>& model_name() const;
+  ::google::protobuf::RepeatedPtrField<std::string>* mutable_model_name();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<std::string>& _internal_model_name() const;
+  ::google::protobuf::RepeatedPtrField<std::string>* _internal_mutable_model_name();
+
+  public:
+  // @@protoc_insertion_point(class_scope:translate.ListModelResponse)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 1, 0,
+      46, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const ListModelResponse& from_msg);
+    ::google::protobuf::RepeatedPtrField<std::string> model_name_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_translate_2eproto;
+};
 
 // ===================================================================
 
@@ -686,6 +1090,58 @@ class LogResponse final : public ::google::protobuf::Message
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// LoadModelRequest
+
+// string model_name = 1;
+inline void LoadModelRequest::clear_model_name() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.model_name_.ClearToEmpty();
+}
+inline const std::string& LoadModelRequest::model_name() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:translate.LoadModelRequest.model_name)
+  return _internal_model_name();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void LoadModelRequest::set_model_name(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.model_name_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:translate.LoadModelRequest.model_name)
+}
+inline std::string* LoadModelRequest::mutable_model_name() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_model_name();
+  // @@protoc_insertion_point(field_mutable:translate.LoadModelRequest.model_name)
+  return _s;
+}
+inline const std::string& LoadModelRequest::_internal_model_name() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.model_name_.Get();
+}
+inline void LoadModelRequest::_internal_set_model_name(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.model_name_.Set(value, GetArena());
+}
+inline std::string* LoadModelRequest::_internal_mutable_model_name() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.model_name_.Mutable( GetArena());
+}
+inline std::string* LoadModelRequest::release_model_name() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:translate.LoadModelRequest.model_name)
+  return _impl_.model_name_.Release();
+}
+inline void LoadModelRequest::set_allocated_model_name(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.model_name_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.model_name_.IsDefault()) {
+    _impl_.model_name_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:translate.LoadModelRequest.model_name)
+}
+
 // -------------------------------------------------------------------
 
 // TranslateRequest
@@ -862,6 +1318,74 @@ inline void LogResponse::set_allocated_log_content(std::string* value) {
     _impl_.log_content_.Set("", GetArena());
   }
   // @@protoc_insertion_point(field_set_allocated:translate.LogResponse.log_content)
+}
+
+// -------------------------------------------------------------------
+
+// ListModelResponse
+
+// repeated string model_name = 1;
+inline int ListModelResponse::_internal_model_name_size() const {
+  return _internal_model_name().size();
+}
+inline int ListModelResponse::model_name_size() const {
+  return _internal_model_name_size();
+}
+inline void ListModelResponse::clear_model_name() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.model_name_.Clear();
+}
+inline std::string* ListModelResponse::add_model_name() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  std::string* _s = _internal_mutable_model_name()->Add();
+  // @@protoc_insertion_point(field_add_mutable:translate.ListModelResponse.model_name)
+  return _s;
+}
+inline const std::string& ListModelResponse::model_name(int index) const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:translate.ListModelResponse.model_name)
+  return _internal_model_name().Get(index);
+}
+inline std::string* ListModelResponse::mutable_model_name(int index)
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable:translate.ListModelResponse.model_name)
+  return _internal_mutable_model_name()->Mutable(index);
+}
+template <typename Arg_, typename... Args_>
+inline void ListModelResponse::set_model_name(int index, Arg_&& value, Args_... args) {
+  ::google::protobuf::internal::AssignToString(
+      *_internal_mutable_model_name()->Mutable(index),
+      std::forward<Arg_>(value), args... );
+  // @@protoc_insertion_point(field_set:translate.ListModelResponse.model_name)
+}
+template <typename Arg_, typename... Args_>
+inline void ListModelResponse::add_model_name(Arg_&& value, Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::google::protobuf::internal::AddToRepeatedPtrField(*_internal_mutable_model_name(),
+                               std::forward<Arg_>(value),
+                               args... );
+  // @@protoc_insertion_point(field_add:translate.ListModelResponse.model_name)
+}
+inline const ::google::protobuf::RepeatedPtrField<std::string>&
+ListModelResponse::model_name() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:translate.ListModelResponse.model_name)
+  return _internal_model_name();
+}
+inline ::google::protobuf::RepeatedPtrField<std::string>*
+ListModelResponse::mutable_model_name() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable_list:translate.ListModelResponse.model_name)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _internal_mutable_model_name();
+}
+inline const ::google::protobuf::RepeatedPtrField<std::string>&
+ListModelResponse::_internal_model_name() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.model_name_;
+}
+inline ::google::protobuf::RepeatedPtrField<std::string>*
+ListModelResponse::_internal_mutable_model_name() {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return &_impl_.model_name_;
 }
 
 #ifdef __GNUC__

@@ -12,14 +12,14 @@ translate_engine::~translate_engine()
     }
 }
 
-bool translate_engine::load_model()
+bool translate_engine::load_model(const std::string& model_name)
 {
     ggml_backend_load_all();
 
     llama_model_params model_params = llama_model_default_params();
     model_params.n_gpu_layers = N_GPU_LAYERS;
 
-    m_model = llama_model_load_from_file(MODEL_PATH.c_str(), model_params);
+    m_model = llama_model_load_from_file(model_name.c_str(), model_params);
     if (m_model == nullptr)
     {
         std::cerr << "failed to load model" << std::endl;
@@ -60,7 +60,8 @@ void translate_engine::translate(const std::string& prompt, const std::function<
 {
     if (m_model == nullptr)
     {
-        load_model();
+        token_output_callback("model is not loaded");
+        return;
     }
 
     const llama_vocab *vocab = llama_model_get_vocab(m_model);

@@ -26,6 +26,7 @@ static const char* TranslateService_method_names[] = {
   "/translate.TranslateService/FreeModel",
   "/translate.TranslateService/Translate",
   "/translate.TranslateService/WatchLog",
+  "/translate.TranslateService/ListModel",
 };
 
 std::unique_ptr< TranslateService::Stub> TranslateService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -39,25 +40,26 @@ TranslateService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& c
   , rpcmethod_FreeModel_(TranslateService_method_names[1], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_Translate_(TranslateService_method_names[2], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
   , rpcmethod_WatchLog_(TranslateService_method_names[3], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_ListModel_(TranslateService_method_names[4], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
-::grpc::Status TranslateService::Stub::LoadModel(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::google::protobuf::Empty* response) {
-  return ::grpc::internal::BlockingUnaryCall< ::google::protobuf::Empty, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_LoadModel_, context, request, response);
+::grpc::Status TranslateService::Stub::LoadModel(::grpc::ClientContext* context, const ::translate::LoadModelRequest& request, ::google::protobuf::Empty* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::translate::LoadModelRequest, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_LoadModel_, context, request, response);
 }
 
-void TranslateService::Stub::async::LoadModel(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)> f) {
-  ::grpc::internal::CallbackUnaryCall< ::google::protobuf::Empty, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_LoadModel_, context, request, response, std::move(f));
+void TranslateService::Stub::async::LoadModel(::grpc::ClientContext* context, const ::translate::LoadModelRequest* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::translate::LoadModelRequest, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_LoadModel_, context, request, response, std::move(f));
 }
 
-void TranslateService::Stub::async::LoadModel(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response, ::grpc::ClientUnaryReactor* reactor) {
+void TranslateService::Stub::async::LoadModel(::grpc::ClientContext* context, const ::translate::LoadModelRequest* request, ::google::protobuf::Empty* response, ::grpc::ClientUnaryReactor* reactor) {
   ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_LoadModel_, context, request, response, reactor);
 }
 
-::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* TranslateService::Stub::PrepareAsyncLoadModelRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::google::protobuf::Empty, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_LoadModel_, context, request);
+::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* TranslateService::Stub::PrepareAsyncLoadModelRaw(::grpc::ClientContext* context, const ::translate::LoadModelRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::google::protobuf::Empty, ::translate::LoadModelRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_LoadModel_, context, request);
 }
 
-::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* TranslateService::Stub::AsyncLoadModelRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* TranslateService::Stub::AsyncLoadModelRaw(::grpc::ClientContext* context, const ::translate::LoadModelRequest& request, ::grpc::CompletionQueue* cq) {
   auto* result =
     this->PrepareAsyncLoadModelRaw(context, request, cq);
   result->StartCall();
@@ -119,14 +121,37 @@ void TranslateService::Stub::async::WatchLog(::grpc::ClientContext* context, con
   return ::grpc::internal::ClientAsyncReaderFactory< ::translate::LogResponse>::Create(channel_.get(), cq, rpcmethod_WatchLog_, context, request, false, nullptr);
 }
 
+::grpc::Status TranslateService::Stub::ListModel(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::translate::ListModelResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::google::protobuf::Empty, ::translate::ListModelResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_ListModel_, context, request, response);
+}
+
+void TranslateService::Stub::async::ListModel(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::translate::ListModelResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::google::protobuf::Empty, ::translate::ListModelResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_ListModel_, context, request, response, std::move(f));
+}
+
+void TranslateService::Stub::async::ListModel(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::translate::ListModelResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_ListModel_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::translate::ListModelResponse>* TranslateService::Stub::PrepareAsyncListModelRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::translate::ListModelResponse, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_ListModel_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::translate::ListModelResponse>* TranslateService::Stub::AsyncListModelRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncListModelRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
 TranslateService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       TranslateService_method_names[0],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< TranslateService::Service, ::google::protobuf::Empty, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+      new ::grpc::internal::RpcMethodHandler< TranslateService::Service, ::translate::LoadModelRequest, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](TranslateService::Service* service,
              ::grpc::ServerContext* ctx,
-             const ::google::protobuf::Empty* req,
+             const ::translate::LoadModelRequest* req,
              ::google::protobuf::Empty* resp) {
                return service->LoadModel(ctx, req, resp);
              }, this)));
@@ -160,12 +185,22 @@ TranslateService::Service::Service() {
              ::grpc::ServerWriter<::translate::LogResponse>* writer) {
                return service->WatchLog(ctx, req, writer);
              }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      TranslateService_method_names[4],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< TranslateService::Service, ::google::protobuf::Empty, ::translate::ListModelResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](TranslateService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::google::protobuf::Empty* req,
+             ::translate::ListModelResponse* resp) {
+               return service->ListModel(ctx, req, resp);
+             }, this)));
 }
 
 TranslateService::Service::~Service() {
 }
 
-::grpc::Status TranslateService::Service::LoadModel(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response) {
+::grpc::Status TranslateService::Service::LoadModel(::grpc::ServerContext* context, const ::translate::LoadModelRequest* request, ::google::protobuf::Empty* response) {
   (void) context;
   (void) request;
   (void) response;
@@ -190,6 +225,13 @@ TranslateService::Service::~Service() {
   (void) context;
   (void) request;
   (void) writer;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status TranslateService::Service::ListModel(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::translate::ListModelResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 

@@ -5,11 +5,16 @@ package translate;
 import "google/protobuf/empty.proto";
 
 service TranslateService {
-  rpc LoadModel (google.protobuf.Empty) returns (google.protobuf.Empty) {}
-  rpc FreeModel (google.protobuf.Empty) returns (google.protobuf.Empty) {}
-  rpc Translate (TranslateRequest) returns (stream TranslateResponse) {}
+  rpc LoadModel (LoadModelRequest) returns (google.protobuf.Empty);
+  rpc FreeModel (google.protobuf.Empty) returns (google.protobuf.Empty);
+  rpc Translate (TranslateRequest) returns (stream TranslateResponse);
 
-  rpc WatchLog (google.protobuf.Empty) returns (stream LogResponse) {}
+  rpc WatchLog (google.protobuf.Empty) returns (stream LogResponse);
+  rpc ListModel (google.protobuf.Empty) returns (ListModelResponse);
+}
+
+message LoadModelRequest {
+  string model_name = 1;
 }
 
 message TranslateRequest {
@@ -23,4 +28,8 @@ message TranslateResponse {
 
 message LogResponse {
   string log_content = 1;
+}
+
+message ListModelResponse {
+  repeated string model_name = 1;
 }
